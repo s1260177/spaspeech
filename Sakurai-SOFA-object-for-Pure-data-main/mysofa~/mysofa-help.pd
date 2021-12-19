@@ -1,4 +1,4 @@
-#N canvas 255 25 557 755 12;
+#N canvas 521 25 557 755 12;
 #X obj 7 7 cnv 15 552 40 empty \$0-pddp.cnv.header mysofa~ 3 12 0 18
 -204280 -1 0;
 #X obj 226 196 vsl 15 100 0 359 0 0 empty empty Azimuth 0 -9 0 10 -262130
@@ -74,8 +74,8 @@
 (last three inlets). Distance is not yet implemented in the SOFA standard.
 NOTE: Make sure that the SOFA file and Pd have the same sampling rate
 , f 76;
-#X obj 443 195 vsl 15 100 0 345 0 0 empty empty Speakerazi(Sofaazi)
-0 -9 0 10 -203904 -1 -1 0 1;
+#X obj 443 195 vsl 15 100 0 359 0 0 empty empty Speakerazi(Sofaazi)
+0 -9 0 10 -203904 -1 -1 9900 1;
 #X floatatom 442 306 5 0 0 1 deg - -;
 #X obj 84 638 cnv 17 3 17 empty \$0-pddp.cnv.let.1 4 5 9 0 16 -228856
 -162280 0;

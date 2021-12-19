@@ -99,6 +99,7 @@ t_int *mysofa_tilde_perform(t_int *w) {
         //ADD
         x->values[3] = x->sofaazi;//Speaker_azi
         int a,b;
+        int strazi = 0;
         //
         mysofa_s2c(x->values);//changing value of x[*] to x,y,z
         
@@ -112,7 +113,7 @@ t_int *mysofa_tilde_perform(t_int *w) {
                 strcat(file,"/MySOFA");
                 //post("spiazi - %f",x->abc);
                 //
-                int strazi = 0;
+                strazi = 0;
                 for(double checkazi = 7.5; checkazi < 360; checkazi = checkazi+15){
                     if(x->abc > 360) error("Sofa file could not be read.");
                     else if(x->abc < checkazi){
@@ -153,6 +154,12 @@ t_int *mysofa_tilde_perform(t_int *w) {
                 x->r_ir[i] = x->rightIR[i];
 
             }
+            //ADD
+            else if(strazi > 180){
+                x->l_ir[i] = x->rightIR[i];
+                x->r_ir[i] = x->leftIR[i];
+            }
+            //
             else{
                 x->l_ir[i] = 0.0;
                 x->r_ir[i] = 0.0;
