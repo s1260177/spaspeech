@@ -24,7 +24,7 @@ typedef struct _mysofa_tilde {
     t_float distance;
     //ADD
     t_float sofaazi;
-    
+    //
     t_float values[4];
     t_float x,y,z,abc;
     t_float leftDelay;
@@ -54,6 +54,7 @@ typedef struct _mysofa_tilde {
     t_outlet *x_l_out;
 
     struct MYSOFA_EASY *sofa;
+ 
     char filename[1000];
     float *s_in; //s_in
     float *l_ir, *r_ir; //l_ir, r_ir;
@@ -112,14 +113,15 @@ t_int *mysofa_tilde_perform(t_int *w) {
                 //post("spiazi - %f",x->abc);
                 //
                 int strazi = 0;
-                for(double checkazi = 7.5; checkazi < 180; checkazi = checkazi+15){
-                    if(x->abc > 180) error("Sofa file could not be read.");
+                for(double checkazi = 7.5; checkazi < 360; checkazi = checkazi+15){
+                    if(x->abc > 360) error("Sofa file could not be read.");
                     else if(x->abc < checkazi){
+                        if(strazi > 180) strazi = 360 - strazi;
                         sprintf(str, "/S%03d", strazi);
                         strcat(file,str);
                         strcat(file,"_sofa.sofa");
                         post("Sofa file: %s",file);
-                        x->sofa = mysofa_open(file, x->sr, &a, &b);
+                        x->sofa = mysofa_open_cached(file, x->sr, &a, &b);
                         break;
                     }
                     strazi = strazi + 15;
@@ -353,7 +355,8 @@ void mysofa_tilde_free(t_mysofa_tilde *x) {
     fftwf_free(x->R_out);
     fftwf_free(x->l_out);
     fftwf_free(x->r_out);
-    mysofa_close(x->sofa);
+    //mysofa_close_cached(x->sofa);
+    mysofa_cache_release_all();
 }
 
 
