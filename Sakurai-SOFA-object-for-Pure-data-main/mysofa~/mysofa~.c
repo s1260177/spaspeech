@@ -112,7 +112,6 @@ t_int *mysofa_tilde_perform(t_int *w) {
         x->values[2] = x->distance;//x->distance;
         //ADD
         x->values[3] = x->sofaazi;//Speaker_azi
-        int a,b;
         int strazi = 0;
         //
         mysofa_s2c(x->values);//changing value of x[*] to x,y,z
@@ -121,23 +120,28 @@ t_int *mysofa_tilde_perform(t_int *w) {
         if(x->x != x->values[0] || x->y != x->values[1] || x->z != x->values[2] || x->abc != x->values[3]){
             if(x->abc != x->values[3]){
                 x->abc = x->values[3];
-                char file[2000] ="";
-                char str[8] ="";
-                strcpy(file,x->path);
-                strcat(file,"/MySOFA");
-                //post("spiazi - %f",x->abc);
-                //
                 strazi = 0;
                 for(double checkazi = 7.5; checkazi < 360; checkazi = checkazi+15){
                     if(x->abc > 360) error("Sofa file could not be read.");
-                    else if(x->abc < checkazi){
+                    else if(x->abc < checkazi && x->abc > checkazi - 15){
                         if(strazi > 180) strazi = 360 - strazi;
-                        sprintf(str, "/S%03d", strazi);
-                        strcat(file,str);
-                        strcat(file,"_sofa.sofa");
-                        post("Sofa file: %s",file);
-                        x->S000 = mysofa_open_cached(file, x->sr, &a, &b);
-                        x->sofa = x->S000;
+                        
+                        if(strazi == 0) x->sofa = x->S000;
+                        else if(strazi == 15) x->sofa = x->S015;
+                        else if(strazi == 30) x->sofa = x->S030;
+                        else if(strazi == 45) x->sofa = x->S045;
+                        else if(strazi == 60) x->sofa = x->S060;
+                        else if(strazi == 75) x->sofa = x->S075;
+                        else if(strazi == 90) x->sofa = x->S090;
+                        else if(strazi == 105) x->sofa = x->S105;
+                        else if(strazi == 120) x->sofa = x->S120;
+                        else if(strazi == 135) x->sofa = x->S135;
+                        else if(strazi == 150) x->sofa = x->S150;
+                        else if(strazi == 165) x->sofa = x->S165;
+                        else if(strazi == 180) x->sofa = x->S180;
+                        else {
+                            post("S%03d sofa file is nothing.",strazi);
+                        }
                         break;
                     }
                     strazi = strazi + 15;
@@ -170,7 +174,7 @@ t_int *mysofa_tilde_perform(t_int *w) {
 
             }
             //ADD
-            else if(strazi > 180){
+            else if(x->abc > 180){
                 x->l_ir[i] = x->rightIR[i];
                 x->r_ir[i] = x->leftIR[i];
             }
