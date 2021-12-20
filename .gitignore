@@ -1,3 +1,5 @@
 
 Sakurai-SOFA-object-for-Pure-data-main/mysofa~/mysofa~.pd_darwin
 Sakurai-SOFA-object-for-Pure-data-main/mysofa~/mysofa~.o
+*.o
+*.pd_darwin
