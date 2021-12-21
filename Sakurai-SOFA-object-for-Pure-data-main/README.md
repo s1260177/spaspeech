@@ -3,7 +3,10 @@ SOFA-object-for-Pure-data is a graphical programming language called Pure-data t
 It is an object that performs IR (impulse response) convolution according to the user-specified .wav file and elevation azimuth and distance position information, and outputs the result.
 With this object, you can manipulate stereophonic sound in real time within Pure-data.
 
-
+//Sakurai adds points
+I added the ability to change the azimuth of the speaker to the existing code.
+The existing code could only read one SOFA file, so I made it so that it could read multiple files.
+I also made it possible to change multiple SOFA files read by the slider, just as the existing code uses the slider to change the azimuth of the listener.
 # Requirement
 
 * Pure-data
@@ -80,3 +83,5 @@ https://youtu.be/eYMlJGgj1rw
 * Author Sakuya Fujisawa
 * E-mail m5251103@u-aizu.ac.jp
 
+* Author Yuki Sakurai
+* E-mail s1260177@u-aizu.ac.jp
