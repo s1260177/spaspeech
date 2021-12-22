@@ -1,4 +1,4 @@
-#N canvas 521 25 557 755 12;
+#N canvas 471 25 557 755 12;
 #X obj 7 7 cnv 15 552 40 empty \$0-pddp.cnv.header mysofa~ 3 12 0 18
 -204280 -1 0;
 #X obj 226 196 vsl 15 100 0 359 0 0 empty empty Azimuth 0 -9 0 10 -262130
@@ -16,8 +16,8 @@
 #X msg 21 205 read -resize \$1 soundfile;
 #X obj 21 230 soundfiler;
 #N canvas 0 22 450 278 (subpatch) 0;
-#X array soundfile 256 float 2;
-#X coords 0 1 256 -1 200 70 1 0 0;
+#X array soundfile 233873 float 2;
+#X coords 0 1 233873 -1 200 70 1 0 0;
 #X restore 339 383 graph;
 #X obj 14 377 tabplay~ soundfile;
 #X obj 14 328 bng 15 250 50 0 empty \$0-EOF empty 17 7 0 10 -262144
@@ -61,7 +61,6 @@
 #X text 90 723 https://onkyo.u-aizu..ac.jp/~julian;
 #X obj 129 401 bng 15 250 50 0 \$0-EOF empty empty 17 7 0 10 -262144
 -1 -1;
-#X obj 147 505 dac~, f 7;
 #X obj 249 415 hsl 64 15 0 1 0 0 empty empty level -2 -8 0 10 -262144
 -1 -1 0 1;
 #X text 45 158 1) Select audio file;
@@ -74,8 +73,8 @@
 (last three inlets). Distance is not yet implemented in the SOFA standard.
 NOTE: Make sure that the SOFA file and Pd have the same sampling rate
 , f 76;
-#X obj 443 195 vsl 15 100 0 359 0 0 empty empty Speakerazi(Sofaazi)
-0 -9 0 10 -203904 -1 -1 9900 1;
+#X obj 446 189 vsl 15 100 0 359 0 0 empty empty Speakerazi(Sofaazi)
+0 -9 0 10 -203904 -1 -1 0 1;
 #X floatatom 442 306 5 0 0 1 deg - -;
 #X obj 84 638 cnv 17 3 17 empty \$0-pddp.cnv.let.1 4 5 9 0 16 -228856
 -162280 0;
@@ -83,6 +82,7 @@ NOTE: Make sure that the SOFA file and Pd have the same sampling rate
 #X text 142 638 - speaker_azimuth (0..180 deg.);
 #X text 4 305 2) play;
 #X text 223 158 3) Adjust coordinates;
+#X obj 147 505 dac~ 2 1;
 #X connect 1 0 4 0;
 #X connect 2 0 5 0;
 #X connect 3 0 6 0;
@@ -98,13 +98,13 @@ NOTE: Make sure that the SOFA file and Pd have the same sampling rate
 #X connect 14 0 17 0;
 #X connect 14 1 16 0;
 #X connect 15 0 12 0;
-#X connect 16 0 43 1;
-#X connect 17 0 43 0;
+#X connect 16 0 56 1;
+#X connect 17 0 56 0;
 #X connect 18 0 17 1;
 #X connect 18 0 16 1;
-#X connect 44 0 18 0;
-#X connect 44 0 47 0;
-#X connect 47 0 48 0;
-#X connect 47 1 46 0;
-#X connect 50 0 51 0;
-#X connect 51 0 14 4;
+#X connect 43 0 18 0;
+#X connect 43 0 46 0;
+#X connect 46 0 47 0;
+#X connect 46 1 45 0;
+#X connect 49 0 50 0;
+#X connect 50 0 14 4;

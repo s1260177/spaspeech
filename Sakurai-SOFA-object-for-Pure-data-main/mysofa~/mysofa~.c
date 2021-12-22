@@ -272,26 +272,26 @@ void mysofa_tilde_dsp(t_mysofa_tilde *x, t_signal **sp) {
     for(int strazi = 0; strazi <= 180; strazi = strazi + 15){
         char file[2000] ="";
         char str[8] ="";
-        int a,b;
+        //int a,b;
         strcpy(file,x->path);
         strcat(file,"/MySOFA/");
         sprintf(str, "S%03d", strazi);
         strcat(file,str);
         strcat(file,"_sofa.sofa");
        
-        if(strazi == 0) x->S000 = mysofa_open_cached(file, x->sr, &a, &b);
-        else if(strazi == 15) x->S015 = mysofa_open_cached(file, x->sr, &a, &b);
-        else if(strazi == 30) x->S030 = mysofa_open_cached(file, x->sr, &a, &b);
-        else if(strazi == 45) x->S045 = mysofa_open_cached(file, x->sr, &a, &b);
-        else if(strazi == 60) x->S060 = mysofa_open_cached(file, x->sr, &a, &b);
-        else if(strazi == 75) x->S075 = mysofa_open_cached(file, x->sr, &a, &b);
-        else if(strazi == 90) x->S090 = mysofa_open_cached(file, x->sr, &a, &b);
-        else if(strazi == 105) x->S105 = mysofa_open_cached(file, x->sr, &a, &b);
-        else if(strazi == 120) x->S120 = mysofa_open_cached(file, x->sr, &a, &b);
-        else if(strazi == 135) x->S135 = mysofa_open_cached(file, x->sr, &a, &b);
-        else if(strazi == 150) x->S150 = mysofa_open_cached(file, x->sr, &a, &b);
-        else if(strazi == 165) x->S165 = mysofa_open_cached(file, x->sr, &a, &b);
-        else if(strazi == 180) x->S180 = mysofa_open_cached(file, x->sr, &a, &b);
+        if(strazi == 0) x->S000 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+        else if(strazi == 15) x->S015 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+        else if(strazi == 30) x->S030 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+        else if(strazi == 45) x->S045 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+        else if(strazi == 60) x->S060 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+        else if(strazi == 75) x->S075 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+        else if(strazi == 90) x->S090 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+        else if(strazi == 105) x->S105 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+        else if(strazi == 120) x->S120 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+        else if(strazi == 135) x->S135 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+        else if(strazi == 150) x->S150 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+        else if(strazi == 165) x->S165 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+        else if(strazi == 180) x->S180 = mysofa_open_cached(file, x->sr, &filter_length, &err);
         else {
             post("S%03d SOFA file is nothing.",strazi);
             break;
@@ -400,7 +400,7 @@ void mysofa_tilde_free(t_mysofa_tilde *x) {
     fftwf_free(x->R_out);
     fftwf_free(x->l_out);
     fftwf_free(x->r_out);
-    //mysofa_close_cached(x->sofa);
+    mysofa_close_cached(x->sofa);
     mysofa_cache_release_all();
 }
 
