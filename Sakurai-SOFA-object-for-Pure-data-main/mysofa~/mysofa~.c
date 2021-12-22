@@ -262,7 +262,7 @@ void mysofa_tilde_dsp(t_mysofa_tilde *x, t_signal **sp) {
             sp[2]->s_vec, //out_signal_l
             sp[0]->s_n);
 
-    int filter_length=512, err=0;
+    int filter_length, err;
     int i=0;
     int size[8] = {128, 256, 512, 1024, 2048, 4096, 8192,16384};
 
@@ -272,7 +272,7 @@ void mysofa_tilde_dsp(t_mysofa_tilde *x, t_signal **sp) {
     for(int strazi = 0; strazi <= 180; strazi = strazi + 15){
         char file[2000] ="";
         char str[8] ="";
-        //int a,b;
+        
         strcpy(file,x->path);
         strcat(file,"/MySOFA/");
         sprintf(str, "S%03d", strazi);
