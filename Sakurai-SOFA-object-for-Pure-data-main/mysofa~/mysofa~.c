@@ -43,10 +43,10 @@ typedef struct _mysofa_tilde {
     t_sample l_buffer[MAX_BLOCKSIZE];
 
     t_inlet *x_in2;
-    t_inlet *x_in3;
-    t_inlet *x_in4;
+    //t_inlet *x_in3;
+    //t_inlet *x_in4;
     //ADD
-    t_inlet *x_in5;
+    t_inlet *x_in3;
     char path[2000];
     //
     
@@ -108,8 +108,8 @@ t_int *mysofa_tilde_perform(t_int *w) {
         x->nbins = x->fftsize/2 + 1;
 
         x->values[0] = x->azimuth;//x->azimuth;
-        x->values[1] = x->elevation;//x->elevation;
-        x->values[2] = x->distance;//x->distance;
+        x->values[1] = 0;//x->elevation;
+        x->values[2] = 60;//x->distance;
         //ADD
         x->values[3] = x->sofaazi;//Speaker_azi
         int strazi = 0;
@@ -117,7 +117,7 @@ t_int *mysofa_tilde_perform(t_int *w) {
         mysofa_s2c(x->values);//changing value of x[*] to x,y,z
         
         //get leftIR and rightIR
-        if(x->x != x->values[0] || x->y != x->values[1] || x->z != x->values[2] || x->abc != x->values[3]){
+        if(x->x != x->values[0]|| x->abc != x->values[3]){
             if(x->abc != x->values[3]){
                 x->abc = x->values[3];
                 strazi = 0;
@@ -435,8 +435,9 @@ void mysofa_tilde_symbol(t_mysofa_tilde *x, t_symbol *s){
 
 void mysofa_tilde_free(t_mysofa_tilde *x) {
     inlet_free(x->x_in2);
+    //inlet_free(x->x_in3);
+    //inlet_free(x->x_in4);
     inlet_free(x->x_in3);
-    inlet_free(x->x_in4);
     outlet_free(x->x_r_out);
     outlet_free(x->x_l_out);
 
@@ -465,9 +466,9 @@ void mysofa_tilde_free(t_mysofa_tilde *x) {
 void *mysofa_tilde_new(void) {
     t_mysofa_tilde *x = (t_mysofa_tilde *)pd_new(mysofa_tilde_class);
     x->x_in2 = floatinlet_new(&x->x_obj, &x->azimuth);
-    x->x_in3 = floatinlet_new(&x->x_obj, &x->elevation);
-    x->x_in4 = floatinlet_new(&x->x_obj, &x->distance);
-    x->x_in5 = floatinlet_new(&x->x_obj, &x->sofaazi);
+    //x->x_in3 = floatinlet_new(&x->x_obj, &x->elevation);
+    //x->x_in4 = floatinlet_new(&x->x_obj, &x->distance);
+    x->x_in3 = floatinlet_new(&x->x_obj, &x->sofaazi);
 
 
     x->x_r_out = outlet_new(&x->x_obj, &s_signal);

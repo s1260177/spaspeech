@@ -62,7 +62,7 @@
 #X obj 129 401 bng 15 250 50 0 \$0-EOF empty empty 17 7 0 10 -262144
 -1 -1;
 #X obj 249 415 hsl 64 15 0 1 0 0 empty empty level -2 -8 0 10 -262144
--1 -1 0 1;
+-1 -1 1800 1;
 #X text 45 158 1) Select audio file;
 #X msg 322 475 \; pd dsp 1;
 #X obj 255 443 moses 0;
@@ -74,7 +74,7 @@
 NOTE: Make sure that the SOFA file and Pd have the same sampling rate
 , f 76;
 #X obj 446 189 vsl 15 100 0 359 0 0 empty empty Speakerazi(Sofaazi)
-0 -9 0 10 -203904 -1 -1 0 1;
+0 -9 0 10 -203904 -1 -1 9900 1;
 #X floatatom 442 306 5 0 0 1 deg - -;
 #X obj 84 638 cnv 17 3 17 empty \$0-pddp.cnv.let.1 4 5 9 0 16 -228856
 -162280 0;
@@ -87,8 +87,6 @@ NOTE: Make sure that the SOFA file and Pd have the same sampling rate
 #X connect 2 0 5 0;
 #X connect 3 0 6 0;
 #X connect 4 0 14 1;
-#X connect 5 0 14 2;
-#X connect 6 0 14 3;
 #X connect 7 0 9 0;
 #X connect 8 0 7 0;
 #X connect 9 0 10 0;
@@ -107,4 +105,4 @@ NOTE: Make sure that the SOFA file and Pd have the same sampling rate
 #X connect 46 0 47 0;
 #X connect 46 1 45 0;
 #X connect 49 0 50 0;
-#X connect 50 0 14 4;
+#X connect 50 0 14 2;
