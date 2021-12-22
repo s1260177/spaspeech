@@ -173,12 +173,6 @@ t_int *mysofa_tilde_perform(t_int *w) {
                 x->r_ir[i] = x->rightIR[i];
 
             }
-            //ADD
-            else if(x->abc > 180){
-                x->l_ir[i] = x->rightIR[i];
-                x->r_ir[i] = x->leftIR[i];
-            }
-            //
             else{
                 x->l_ir[i] = 0.0;
                 x->r_ir[i] = 0.0;
@@ -299,10 +293,10 @@ void mysofa_tilde_dsp(t_mysofa_tilde *x, t_signal **sp) {
         else if(strazi == 165) x->S165 = mysofa_open_cached(file, x->sr, &a, &b);
         else if(strazi == 180) x->S180 = mysofa_open_cached(file, x->sr, &a, &b);
         else {
-            post("S%03d sofa file is nothing.",strazi);
+            post("S%03d SOFA file is nothing.",strazi);
             break;
         }
-            post("Sofa file: %s load.",file);
+            post("SOFA file %s loaded.",file);
         //x->sofa = x->S000;
     
     }
