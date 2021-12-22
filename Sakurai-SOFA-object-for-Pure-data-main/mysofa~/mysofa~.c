@@ -279,33 +279,90 @@ void mysofa_tilde_dsp(t_mysofa_tilde *x, t_signal **sp) {
         strcat(file,str);
         strcat(file,"_sofa.sofa");
        
-        if(strazi == 0) x->S000 = mysofa_open_cached(file, x->sr, &filter_length, &err);
-        else if(strazi == 15) x->S015 = mysofa_open_cached(file, x->sr, &filter_length, &err);
-        else if(strazi == 30) x->S030 = mysofa_open_cached(file, x->sr, &filter_length, &err);
-        else if(strazi == 45) x->S045 = mysofa_open_cached(file, x->sr, &filter_length, &err);
-        else if(strazi == 60) x->S060 = mysofa_open_cached(file, x->sr, &filter_length, &err);
-        else if(strazi == 75) x->S075 = mysofa_open_cached(file, x->sr, &filter_length, &err);
-        else if(strazi == 90) x->S090 = mysofa_open_cached(file, x->sr, &filter_length, &err);
-        else if(strazi == 105) x->S105 = mysofa_open_cached(file, x->sr, &filter_length, &err);
-        else if(strazi == 120) x->S120 = mysofa_open_cached(file, x->sr, &filter_length, &err);
-        else if(strazi == 135) x->S135 = mysofa_open_cached(file, x->sr, &filter_length, &err);
-        else if(strazi == 150) x->S150 = mysofa_open_cached(file, x->sr, &filter_length, &err);
-        else if(strazi == 165) x->S165 = mysofa_open_cached(file, x->sr, &filter_length, &err);
-        else if(strazi == 180) x->S180 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+        if(strazi == 0) {
+            x->S000 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            x->sofa = x->S000;
+        }
+        else if(strazi == 15) {
+            x->S015 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            x->sofa = x->S015;    
+        }
+        else if(strazi == 30) {
+            x->S030 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            x->sofa = x->S030;
+        }
+        else if(strazi == 45) {
+            x->S045 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            x->sofa = x->S045;
+        }
+        else if(strazi == 60) {
+            x->S060 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            x->sofa = x->S060;
+        }
+        else if(strazi == 75){
+            x->S075 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            x->sofa = x->S075;
+        }
+        else if(strazi == 90) {
+            x->S090 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            x->sofa = x->S090;
+        }
+        else if(strazi == 105) {
+            x->S105 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            x->sofa = x->S105;
+        }
+        else if(strazi == 120) {
+            x->S120 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            x->sofa = x->S120;
+        }
+        else if(strazi == 135) {
+            x->S135 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            x->sofa = x->S135;
+        }
+        else if(strazi == 150) {
+            x->S150 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            x->sofa = x->S150;
+        }
+        else if(strazi == 165) {
+            x->S165 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            x->sofa = x->S165;
+        }
+        else if(strazi == 180) {
+            x->S180 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            x->sofa = x->S180;
+        }
         else {
             post("S%03d SOFA file is nothing.",strazi);
             break;
         }
+            x->filter_length = filter_length;
+            x->convsize = x->filter_length + sp[0]->s_n - 1;
+            x->err = err;
+                while(1){
+                    if(i==8){
+                        post("blocksize is too large");
+                        break;
+                    }
+                    if(x->convsize <= size[i]){
+                        x->fftsize = size[i];
+                        break;
+                    }
+                    i++;
+                }
+
             post("SOFA file %s loaded.",file);
+            post("filter_length : %f",x->filter_length);
+            post("convsize : %f",x->convsize);
+            post("fftsize : %f",x->fftsize);
         //x->sofa = x->S000;
     
     }
     //x->sofa = mysofa_open(file, x->sr, &filter_length, &err);
-    x->sofa = x->S000;
+    //x->sofa = x->S000;
     //mysofa_tilde_open(x, x->filenameArg);
-    x->filter_length = filter_length;
-    x->convsize = x->filter_length + sp[0]->s_n - 1;
-    x->err = err;
+    //x->filter_length = filter_length;
+    //x->convsize = x->filter_length + sp[0]->s_n - 1;
+    //x->err = err;
     x->azimuth = 0;
     x->elevation = 0;
     x->distance = 60;
@@ -332,9 +389,7 @@ void mysofa_tilde_dsp(t_mysofa_tilde *x, t_signal **sp) {
             i++;
         }
 
-        post("filter_length : %f",x->filter_length);
-        post("convsize : %f",x->convsize);
-        post("fftsize : %f",x->fftsize);
+     
 
 
         x->s_in = fftwf_alloc_real(x->fftsize);
