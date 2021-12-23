@@ -19,11 +19,12 @@ typedef struct _mysofa_tilde {
     t_float rightIR[MAX_BLOCKSIZE];
     t_float leftIR[MAX_BLOCKSIZE];
     t_float f;
-    t_float azimuth;
+    t_float liazi;
     t_float elevation;
     t_float distance;
-    t_float values[3];
-    t_float x,y,z;
+    t_float spazi;
+    t_float values[4];
+    t_float x,y,z,sofaazi;
     t_float leftDelay;
     t_float rightDelay;
     t_float fftsize;
@@ -41,7 +42,7 @@ typedef struct _mysofa_tilde {
 
     t_inlet *x_in2;
     t_inlet *x_in3;
-    t_inlet *x_in4;
+    char path[2000];
     t_outlet *x_r_out;
     t_outlet *x_l_out;
 
@@ -84,9 +85,10 @@ t_int *mysofa_tilde_perform(t_int *w) {
         float mux = 1.0/x->fftsize;
         x->nbins = x->fftsize/2 + 1;
 
-        x->values[0] = x->azimuth;//x->azimuth;
+        x->values[0] = x->liazi;//x->liazi;
         x->values[1] = x->elevation;//x->elevation;
         x->values[2] = x->distance;//x->distance;
+        x->values[3] = x->spazi;//x->spazi;
 
         mysofa_s2c(x->values);
 
@@ -96,6 +98,7 @@ t_int *mysofa_tilde_perform(t_int *w) {
             x->x = x->values[0];
             x->y = x->values[1];
             x->z = x->values[2];
+            x->sofaazi = x->values[3];
 
             mysofa_getfilter_float(x->sofa,x->x,x->y,x->z,x->leftIR,x->rightIR,&x->leftDelay,&x->rightDelay);
             x->delaysize = x->rightDelay + x->leftDelay + x->fftsize;
@@ -212,12 +215,25 @@ void mysofa_tilde_dsp(t_mysofa_tilde *x, t_signal **sp) {
 
     x->err = 100.0;
     x->sr = sp[0]->s_sr;
-    x->sofa = mysofa_open(x->filenameArg->s_name, x->sr, &filter_length, &err);
+
+    //SOFA open
+    char file[2000] ="";
+    /*char str[8] ="";
+    strcpy(file,x->path);
+    strcat(file,"/MySOFA/");
+    //sprintf(str, "S%03d", strazi);
+    strcat(str, "S000");
+    strcat(file,str);
+    strcat(file,"_sofa.sofa");
+    */
+    strcat(file, "/Users/sakuraiyuki/Documents/Pd/kenkyu/sakurai-Pure-data-object-master/sakurai/Sakurai-SOFA-object-for-Pure-data-main/mysofa~/mit_kemar_normal_pinna.sofa");
+    post(file);
+    x->sofa = mysofa_open(file, x->sr, &filter_length, &err);
     //mysofa_tilde_open(x, x->filenameArg);
     x->filter_length = filter_length;
     x->convsize = x->filter_length + sp[0]->s_n - 1;
     x->err = err;
-    x->azimuth = 0;
+    x->liazi = 0;
     x->elevation = 0;
     x->distance = 60;
 
@@ -289,7 +305,6 @@ void mysofa_tilde_symbol(t_mysofa_tilde *x, t_symbol *s){
 void mysofa_tilde_free(t_mysofa_tilde *x) {
     inlet_free(x->x_in2);
     inlet_free(x->x_in3);
-    inlet_free(x->x_in4);
     outlet_free(x->x_r_out);
     outlet_free(x->x_l_out);
 
@@ -316,15 +331,16 @@ void mysofa_tilde_free(t_mysofa_tilde *x) {
 
 void *mysofa_tilde_new(void) {
     t_mysofa_tilde *x = (t_mysofa_tilde *)pd_new(mysofa_tilde_class);
-    x->x_in2 = floatinlet_new(&x->x_obj, &x->azimuth);
-    x->x_in3 = floatinlet_new(&x->x_obj, &x->elevation);
-    x->x_in4 = floatinlet_new(&x->x_obj, &x->distance);
-
+    x->x_in2 = floatinlet_new(&x->x_obj, &x->liazi);
+    x->x_in3 = floatinlet_new(&x->x_obj, &x->spazi);
+  
 
     x->x_r_out = outlet_new(&x->x_obj, &s_signal);
     x->x_l_out = outlet_new(&x->x_obj, &s_signal);
     x->filenameArg =gensym(" ");
     x->err = 100.0;
+
+    strcat(x->path,canvas_getdir(canvas_getcurrent())->s_name); /// The files should be in the same directory
 
     return (void *)x;
 }
