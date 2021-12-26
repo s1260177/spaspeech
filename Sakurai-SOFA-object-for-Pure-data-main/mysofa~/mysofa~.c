@@ -218,16 +218,19 @@ void mysofa_tilde_dsp(t_mysofa_tilde *x, t_signal **sp) {
 
     //SOFA open
     char file[2000] ="";
-    /*char str[8] ="";
+
+    char str[8] ="";
     strcpy(file,x->path);
-    strcat(file,"/MySOFA/");
+    strcat(file,"/newMySOFA/");
     //sprintf(str, "S%03d", strazi);
-    strcat(str, "S000");
+    strcat(str, "S090");
     strcat(file,str);
     strcat(file,"_sofa.sofa");
-    */
-    strcat(file, "/Users/sakuraiyuki/Documents/Pd/kenkyu/sakurai-Pure-data-object-master/sakurai/Sakurai-SOFA-object-for-Pure-data-main/mysofa~/mit_kemar_normal_pinna.sofa");
-    post(file);
+   
+    //strcat(file, "/Users/sakuraiyuki/Documents/Pd/kenkyu/sakurai-Pure-data-object-master/sakurai/Sakurai-SOFA-object-for-Pure-data-main/mysofa~/mit_kemar_normal_pinna.sofa");
+    //strcat(file,"/Users/sakuraiyuki/Documents/Pd/kenkyu/sakurai-Pure-data-object-master/sakurai/Sakurai-SOFA-object-for-Pure-data-main/newMySOFA/S000_sofa.sofa");
+    post("SOFA file is %s.",file);
+
     x->sofa = mysofa_open(file, x->sr, &filter_length, &err);
     //mysofa_tilde_open(x, x->filenameArg);
     x->filter_length = filter_length;
