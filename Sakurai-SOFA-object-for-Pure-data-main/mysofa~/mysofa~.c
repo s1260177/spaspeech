@@ -47,6 +47,19 @@ typedef struct _mysofa_tilde {
     t_outlet *x_l_out;
 
     struct MYSOFA_EASY *sofa;
+    struct MYSOFA_EASY *S000;
+    struct MYSOFA_EASY *S015;
+    struct MYSOFA_EASY *S030;
+    struct MYSOFA_EASY *S045;
+    struct MYSOFA_EASY *S060;
+    struct MYSOFA_EASY *S075;
+    struct MYSOFA_EASY *S090;
+    struct MYSOFA_EASY *S105;
+    struct MYSOFA_EASY *S120;
+    struct MYSOFA_EASY *S135;
+    struct MYSOFA_EASY *S150;
+    struct MYSOFA_EASY *S165;
+    struct MYSOFA_EASY *S180;
     char filename[1000];
     float *s_in; //s_in
     float *l_ir, *r_ir; //l_ir, r_ir;
@@ -89,9 +102,42 @@ t_int *mysofa_tilde_perform(t_int *w) {
         x->values[1] = x->elevation;//x->elevation;
         x->values[2] = x->distance;//x->distance;
         x->values[3] = x->spazi;//x->spazi;
-
+    
         mysofa_s2c(x->values);
-
+        
+        //SOFA change
+        if(x->sofaazi != x->values[3]){
+            x->sofaazi = x->values[3];
+            int strazi = 0;
+            double checkazi;
+            for(checkazi = 7.5; checkazi <= 360; checkazi = checkazi+15){
+                if(x->sofaazi > 360 || x->sofaazi < 0) error("Sofa file could not be read.");
+                else if(x->sofaazi < checkazi && x->sofaazi >= checkazi - 15){
+                    if(strazi == 0 || strazi ==360) x->sofa = x->S000;
+                    else if(strazi == 15 || strazi == 345) x->sofa = x->S015;
+                    else if(strazi == 30 || strazi == 330) x->sofa = x->S030;
+                    else if(strazi == 45 || strazi == 315) x->sofa = x->S045;
+                    else if(strazi == 60 || strazi == 300) x->sofa = x->S060;
+                    else if(strazi == 75 || strazi == 285) x->sofa = x->S075;
+                    else if(strazi == 90 || strazi == 270) x->sofa = x->S090;
+                    else if(strazi == 105 || strazi == 255) x->sofa = x->S105;
+                    else if(strazi == 120 || strazi == 240) x->sofa = x->S120;
+                    else if(strazi == 135 || strazi == 225) x->sofa = x->S135;
+                    else if(strazi == 150 || strazi == 210) x->sofa = x->S150;
+                    else if(strazi == 165 || strazi == 195) x->sofa = x->S165;
+                    else if(strazi == 180) x->sofa = x->S180;
+                    else {
+                        post("S%03d sofa file is nothing.",strazi);
+                    }
+                    break;
+                }
+                strazi = strazi + 15;
+            }
+            mysofa_getfilter_float(x->sofa,x->x,x->y,x->z,x->leftIR,x->rightIR,&x->leftDelay,&x->rightDelay);
+            x->delaysize = x->rightDelay + x->leftDelay + x->fftsize;
+            if(strazi == 360) post("SOFA file is 0");
+            else post("SOFA file is %d",strazi);
+        }
         //get leftIR and rightIR
         if(x->x != x->values[0] || x->y != x->values[1] || x->z != x->values[2]){
 
@@ -99,7 +145,6 @@ t_int *mysofa_tilde_perform(t_int *w) {
             x->y = x->values[1];
             x->z = x->values[2];
             x->sofaazi = x->values[3];
-
             mysofa_getfilter_float(x->sofa,x->x,x->y,x->z,x->leftIR,x->rightIR,&x->leftDelay,&x->rightDelay);
             x->delaysize = x->rightDelay + x->leftDelay + x->fftsize;
         }
@@ -183,12 +228,18 @@ t_int *mysofa_tilde_perform(t_int *w) {
         //output and storage buffer
         for(i=0;i<x->fftsize;i++){
             if(i<n){
+                if(x->sofaazi <= 180){
                 r_out[i] = x->r_buffer[i];
                 l_out[i] = x->l_buffer[i];
+                }
+                else{
+                l_out[i] = x->r_buffer[i];
+                r_out[i] = x->l_buffer[i];
+                }
             }
             x->r_buffer[i] = x->r_buffer[i + n];
             x->l_buffer[i] = x->l_buffer[i + n];
-        }
+         }
     }
 
     //r_out is right
@@ -217,22 +268,42 @@ void mysofa_tilde_dsp(t_mysofa_tilde *x, t_signal **sp) {
     x->sr = sp[0]->s_sr;
 
     //SOFA open
-    char file[2000] ="";
+    for(int strazi = 0; strazi <= 180; strazi = strazi + 15){
+            char file[2000] ="";
+            char str[8] ="";
+            
+            strcpy(file,x->path);
+            strcat(file,"/MySOFA/");
+            sprintf(str, "S%03d", strazi);
+            strcat(file,str);
+            strcat(file,"_sofa.sofa");
+           
+            if(strazi == 0) x->S000 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strazi == 15) x->S015 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strazi == 30) x->S030 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strazi == 45) x->S045 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strazi == 60) x->S060 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strazi == 75) x->S075 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strazi == 90) x->S090 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strazi == 105) x->S105 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strazi == 120) x->S120 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strazi == 135) x->S135 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strazi == 150) x->S150 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strazi == 165) x->S165 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strazi == 180) x->S180 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else {
+                post("S%03d SOFA file is nothing.",strazi);
+                break;
+            }
+        post("SOFA file is %s.",file);
 
-    char str[8] ="";
-    strcpy(file,x->path);
-    strcat(file,"/newMySOFA/");
-    //sprintf(str, "S%03d", strazi);
-    strcat(str, "S090");
-    strcat(file,str);
-    strcat(file,"_sofa.sofa");
-   
+        }
     //strcat(file, "/Users/sakuraiyuki/Documents/Pd/kenkyu/sakurai-Pure-data-object-master/sakurai/Sakurai-SOFA-object-for-Pure-data-main/mysofa~/mit_kemar_normal_pinna.sofa");
     //strcat(file,"/Users/sakuraiyuki/Documents/Pd/kenkyu/sakurai-Pure-data-object-master/sakurai/Sakurai-SOFA-object-for-Pure-data-main/newMySOFA/S000_sofa.sofa");
-    post("SOFA file is %s.",file);
 
-    x->sofa = mysofa_open(file, x->sr, &filter_length, &err);
+    //x->sofa = mysofa_open(file, x->sr, &filter_length, &err);
     //mysofa_tilde_open(x, x->filenameArg);
+    x->sofa = x->S000;
     x->filter_length = filter_length;
     x->convsize = x->filter_length + sp[0]->s_n - 1;
     x->err = err;
@@ -327,6 +398,7 @@ void mysofa_tilde_free(t_mysofa_tilde *x) {
     fftwf_free(x->l_out);
     fftwf_free(x->r_out);
     mysofa_close(x->sofa);
+    mysofa_cache_release_all();
 }
 
 
