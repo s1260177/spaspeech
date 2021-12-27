@@ -108,9 +108,9 @@ t_int *mysofa_tilde_perform(t_int *w) {
         //SOFA change
         if(x->sofaazi != x->values[3]){
             x->sofaazi = x->values[3];
-            int strazi = 0;
-            double checkazi;
-            for(checkazi = 7.5; checkazi <= 360; checkazi = checkazi+15){
+           // int strazi = 0;
+            //double checkazi;
+            /*for(checkazi = 7.5; checkazi <= 360; checkazi = checkazi+15){
                 if(x->sofaazi > 360 || x->sofaazi < 0) error("Sofa file could not be read.");
                 else if(x->sofaazi < checkazi && x->sofaazi >= checkazi - 15){
                     if(strazi == 0 || strazi ==360) x->sofa = x->S000;
@@ -132,11 +132,28 @@ t_int *mysofa_tilde_perform(t_int *w) {
                     break;
                 }
                 strazi = strazi + 15;
-            }
+            }*/
+            //
+            if((x->sofaazi >= 0 && x->sofaazi < 7.5) || (x->sofaazi >= 352.5 && x->sofaazi < 360)) x->sofa = x->S000;
+            else if((x->sofaazi >=7.5 && x->sofaazi < 22.5) || (x->sofaazi >= 337.5 && x->sofaazi < 352.5)) x->sofa = x->S015;
+            else if((x->sofaazi >= 22.5 && x->sofaazi < 37.5) || (x->sofaazi >= 322.5 && x->sofaazi < 337.5)) x->sofa = x->S030;
+            else if((x->sofaazi >= 37.5 && x->sofaazi < 52.5) || (x->sofaazi >= 307.5 && x->sofaazi < 322.5)) x->sofa = x->S045;
+            else if((x->sofaazi >= 52.5 && x->sofaazi < 67.5) || (x->sofaazi >= 292.5 && x->sofaazi < 307.5)) x->sofa = x->S060;
+            else if((x->sofaazi >= 67.5 && x->sofaazi < 82.5) || (x->sofaazi >= 277.5 && x->sofaazi < 292.5)) x->sofa = x->S075;
+            else if((x->sofaazi >= 82.5 && x->sofaazi < 97.5) || (x->sofaazi >= 262.5 && x->sofaazi < 277.5)) x->sofa = x->S090;
+            else if((x->sofaazi >= 97.5 && x->sofaazi < 112.5) || (x->sofaazi >= 247.5 && x->sofaazi < 262.5)) x->sofa = x->S105;
+            else if((x->sofaazi >= 112.5 && x->sofaazi < 127.5) || (x->sofaazi >= 232.5 && x->sofaazi < 247.5)) x->sofa = x->S120;
+            else if((x->sofaazi >= 127.5 && x->sofaazi < 142.5) || (x->sofaazi >= 217.5 && x->sofaazi < 232.5)) x->sofa = x->S135;
+            else if((x->sofaazi >= 142.5 && x->sofaazi < 157.5) || (x->sofaazi >= 202.5 && x->sofaazi < 217.5)) x->sofa = x->S150;
+            else if((x->sofaazi >= 157.5 && x->sofaazi < 172.5) || (x->sofaazi >= 187.5 && x->sofaazi < 202.5)) x->sofa = x->S165;
+            else if(x->sofaazi >= 172.5 && x->sofaazi < 187.5) x->sofa = x->S180;
+            else error("SOFA file is nothing");
+            //
             mysofa_getfilter_float(x->sofa,x->x,x->y,x->z,x->leftIR,x->rightIR,&x->leftDelay,&x->rightDelay);
             x->delaysize = x->rightDelay + x->leftDelay + x->fftsize;
-            if(strazi == 360) post("SOFA file is 0");
-            else post("SOFA file is %d",strazi);
+            //if(strazi == 360) post("SOFA file is 0 loaded.");
+            //else post("SOFA file is %d loaded",strazi);
+            //post("%f",x->sofaazi);
         }
         //get leftIR and rightIR
         if(x->x != x->values[0] || x->y != x->values[1] || x->z != x->values[2]){
