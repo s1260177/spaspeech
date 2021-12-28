@@ -7,7 +7,7 @@ By default, the SOFA files are placed in the mysofa~ directory, MySOFA. If you w
 # Requirement
 
 * Pure-data
-* fftw-3.3.9
+* fftw-3.3.10
 * libmysofa
 
 
