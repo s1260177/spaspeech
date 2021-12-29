@@ -309,10 +309,14 @@ void mysofa_tilde_dsp(t_mysofa_tilde *x, t_signal **sp) {
             else if(strazi == 165) x->S165 = mysofa_open_cached(file, x->sr, &filter_length, &err);
             else if(strazi == 180) x->S180 = mysofa_open_cached(file, x->sr, &filter_length, &err);
             else {
-                post("S%03d SOFA file is nothing.",strazi);
+                error("S%03d SOFA file is nothing.",strazi);
                 break;
             }
-        post("SOFA file is %s.",file);
+        if(err!=0) {
+            error("SOFA %d is nothing.",strazi);
+            err=0;
+        }
+            else post("SOFA file is %s loaded.",file);
 
         }
     //strcat(file, "/Users/sakuraiyuki/Documents/Pd/kenkyu/sakurai-Pure-data-object-master/sakurai/Sakurai-SOFA-object-for-Pure-data-main/mysofa~/mit_kemar_normal_pinna.sofa");
@@ -328,13 +332,6 @@ void mysofa_tilde_dsp(t_mysofa_tilde *x, t_signal **sp) {
     x->elevation = 0;
     x->distance = 60;
 
-
-    if(x->err != 0){
-        error( "The file could not be read.");
-    }
-
-
-    else{
         while(1){
             if(i==8){
                 post("blocksize is too large");
@@ -379,7 +376,7 @@ void mysofa_tilde_dsp(t_mysofa_tilde *x, t_signal **sp) {
             x->l_buffer[i] = 0.0;
         }
 
-    }
+    
 
 }
 
