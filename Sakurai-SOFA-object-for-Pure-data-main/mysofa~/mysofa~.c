@@ -144,9 +144,11 @@ t_int *mysofa_tilde_perform(t_int *w) {
             else if((x->sofaazi >= 97.5 && x->sofaazi < 112.5) || (x->sofaazi >= 247.5 && x->sofaazi < 262.5)) x->sofa = x->S105;
             else if((x->sofaazi >= 112.5 && x->sofaazi < 127.5) || (x->sofaazi >= 232.5 && x->sofaazi < 247.5)) x->sofa = x->S120;
             else if((x->sofaazi >= 127.5 && x->sofaazi < 142.5) || (x->sofaazi >= 217.5 && x->sofaazi < 232.5)) x->sofa = x->S135;
+           /*
             else if((x->sofaazi >= 142.5 && x->sofaazi < 157.5) || (x->sofaazi >= 202.5 && x->sofaazi < 217.5)) x->sofa = x->S150;
             else if((x->sofaazi >= 157.5 && x->sofaazi < 172.5) || (x->sofaazi >= 187.5 && x->sofaazi < 202.5)) x->sofa = x->S165;
             else if(x->sofaazi >= 172.5 && x->sofaazi < 187.5) x->sofa = x->S180;
+            */
             else error("SOFA file is nothing");
             //
             mysofa_getfilter_float(x->sofa,x->x,x->y,x->z,x->leftIR,x->rightIR,&x->leftDelay,&x->rightDelay);
@@ -305,9 +307,11 @@ void mysofa_tilde_dsp(t_mysofa_tilde *x, t_signal **sp) {
             else if(strazi == 105) x->S105 = mysofa_open_cached(file, x->sr, &filter_length, &err);
             else if(strazi == 120) x->S120 = mysofa_open_cached(file, x->sr, &filter_length, &err);
             else if(strazi == 135) x->S135 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            /*
             else if(strazi == 150) x->S150 = mysofa_open_cached(file, x->sr, &filter_length, &err);
             else if(strazi == 165) x->S165 = mysofa_open_cached(file, x->sr, &filter_length, &err);
             else if(strazi == 180) x->S180 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+             */
             else {
                 error("S%03d SOFA file is nothing.",strazi);
                 break;
