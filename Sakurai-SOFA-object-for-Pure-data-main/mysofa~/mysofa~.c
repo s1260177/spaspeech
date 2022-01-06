@@ -60,6 +60,18 @@ typedef struct _mysofa_tilde {
     struct MYSOFA_EASY *S150;
     struct MYSOFA_EASY *S165;
     struct MYSOFA_EASY *S180;
+    struct MYSOFA_EASY *S195;
+    struct MYSOFA_EASY *S210;
+    struct MYSOFA_EASY *S225;
+    struct MYSOFA_EASY *S240;
+    struct MYSOFA_EASY *S255;
+    struct MYSOFA_EASY *S270;
+    struct MYSOFA_EASY *S285;
+    struct MYSOFA_EASY *S300;
+    struct MYSOFA_EASY *S315;
+    struct MYSOFA_EASY *S330;
+    struct MYSOFA_EASY *S345;
+    struct MYSOFA_EASY *S360;
     char filename[1000];
     float *s_in; //s_in
     float *l_ir, *r_ir; //l_ir, r_ir;
@@ -134,19 +146,32 @@ t_int *mysofa_tilde_perform(t_int *w) {
                 strazi = strazi + 15;
             }*/
             //
-            if((x->sofaazi >= 0 && x->sofaazi < 7.5) || (x->sofaazi >= 352.5 && x->sofaazi < 360)) x->sofa = x->S000;
-            else if((x->sofaazi >=7.5 && x->sofaazi < 22.5) || (x->sofaazi >= 337.5 && x->sofaazi < 352.5)) x->sofa = x->S015;
-            else if((x->sofaazi >= 22.5 && x->sofaazi < 37.5) || (x->sofaazi >= 322.5 && x->sofaazi < 337.5)) x->sofa = x->S030;
-            else if((x->sofaazi >= 37.5 && x->sofaazi < 52.5) || (x->sofaazi >= 307.5 && x->sofaazi < 322.5)) x->sofa = x->S045;
-            else if((x->sofaazi >= 52.5 && x->sofaazi < 67.5) || (x->sofaazi >= 292.5 && x->sofaazi < 307.5)) x->sofa = x->S060;
-            else if((x->sofaazi >= 67.5 && x->sofaazi < 82.5) || (x->sofaazi >= 277.5 && x->sofaazi < 292.5)) x->sofa = x->S075;
-            else if((x->sofaazi >= 82.5 && x->sofaazi < 97.5) || (x->sofaazi >= 262.5 && x->sofaazi < 277.5)) x->sofa = x->S090;
-            else if((x->sofaazi >= 97.5 && x->sofaazi < 112.5) || (x->sofaazi >= 247.5 && x->sofaazi < 262.5)) x->sofa = x->S105;
-            else if((x->sofaazi >= 112.5 && x->sofaazi < 127.5) || (x->sofaazi >= 232.5 && x->sofaazi < 247.5)) x->sofa = x->S120;
-            else if((x->sofaazi >= 127.5 && x->sofaazi < 142.5) || (x->sofaazi >= 217.5 && x->sofaazi < 232.5)) x->sofa = x->S135;
-            else if((x->sofaazi >= 142.5 && x->sofaazi < 157.5) || (x->sofaazi >= 202.5 && x->sofaazi < 217.5)) x->sofa = x->S150;
-            else if((x->sofaazi >= 157.5 && x->sofaazi < 172.5) || (x->sofaazi >= 187.5 && x->sofaazi < 202.5)) x->sofa = x->S165;
+            if(x->sofaazi >= 0 && x->sofaazi < 7.5) x->sofa = x->S000;
+            else if(x->sofaazi >=7.5 && x->sofaazi < 22.5) x->sofa = x->S015;
+            else if(x->sofaazi >= 22.5 && x->sofaazi < 37.5) x->sofa = x->S030;
+            else if(x->sofaazi >= 37.5 && x->sofaazi < 52.5) x->sofa = x->S045;
+            else if(x->sofaazi >= 52.5 && x->sofaazi < 67.5) x->sofa = x->S060;
+            else if(x->sofaazi >= 67.5 && x->sofaazi < 82.5) x->sofa = x->S075;
+            else if(x->sofaazi >= 82.5 && x->sofaazi < 97.5) x->sofa = x->S090;
+            else if(x->sofaazi >= 97.5 && x->sofaazi < 112.5) x->sofa = x->S105;
+            else if(x->sofaazi >= 112.5 && x->sofaazi < 127.5) x->sofa = x->S120;
+            else if(x->sofaazi >= 127.5 && x->sofaazi < 142.5) x->sofa = x->S135;
+            else if(x->sofaazi >= 142.5 && x->sofaazi < 157.5) x->sofa = x->S150;
+            else if(x->sofaazi >= 157.5 && x->sofaazi < 172.5) x->sofa = x->S165;
             else if(x->sofaazi >= 172.5 && x->sofaazi < 187.5) x->sofa = x->S180;
+            else if(x->sofaazi >= 187.5 && x->sofaazi < 202.5) x->sofa = x->S195;
+            else if(x->sofaazi >= 202.5 && x->sofaazi < 217.5) x->sofa = x->S210;
+            else if(x->sofaazi >= 217.5 && x->sofaazi < 232.5) x->sofa = x->S225;
+            else if(x->sofaazi >= 232.5 && x->sofaazi < 247.5) x->sofa = x->S240;
+            else if(x->sofaazi >= 247.5 && x->sofaazi < 262.5) x->sofa = x->S255;
+            else if(x->sofaazi >= 262.5 && x->sofaazi < 277.5) x->sofa = x->S270;
+            else if(x->sofaazi >= 277.5 && x->sofaazi < 292.5) x->sofa = x->S285;
+            else if(x->sofaazi >= 292.5 && x->sofaazi < 307.5) x->sofa = x->S300;
+            else if(x->sofaazi >= 307.5 && x->sofaazi < 322.5) x->sofa = x->S315;
+            else if(x->sofaazi >= 322.5 && x->sofaazi < 337.5) x->sofa = x->S330;
+            else if(x->sofaazi >= 337.5 && x->sofaazi < 352.5) x->sofa = x->S345;
+            else if(x->sofaazi >= 352.5 && x->sofaazi < 367.5) x->sofa = x->S360;
+            
             else error("SOFA file is nothing");
             //
             mysofa_getfilter_float(x->sofa,x->x,x->y,x->z,x->leftIR,x->rightIR,&x->leftDelay,&x->rightDelay);
@@ -279,12 +304,12 @@ void mysofa_tilde_dsp(t_mysofa_tilde *x, t_signal **sp) {
     x->sr = sp[0]->s_sr;
 
     //SOFA open
-    for(int strazi = 0; strazi <= 180; strazi = strazi + 15){
+    for(int strazi = 0; strazi <= 360; strazi = strazi + 15){
             char file[2000] ="";
             char str[8] ="";
             
             strcpy(file,x->path);
-            strcat(file,"/newphaseMySOFA/");
+            strcat(file,"/MySOFA0106/");
             sprintf(str, "S%03d", strazi);
             strcat(file,str);
             strcat(file,"_sofa.sofa");
@@ -302,6 +327,18 @@ void mysofa_tilde_dsp(t_mysofa_tilde *x, t_signal **sp) {
             else if(strazi == 150) x->S150 = mysofa_open_cached(file, x->sr, &filter_length, &err);
             else if(strazi == 165) x->S165 = mysofa_open_cached(file, x->sr, &filter_length, &err);
             else if(strazi == 180) x->S180 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strazi == 195) x->S195 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strazi == 210) x->S210 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strazi == 225) x->S225 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strazi == 240) x->S240 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strazi == 255) x->S255 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strazi == 270) x->S270 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strazi == 285) x->S285 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strazi == 300) x->S300 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strazi == 315) x->S315 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strazi == 330) x->S330 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strazi == 345) x->S345 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strazi == 360) x->S360 = mysofa_open_cached(file, x->sr, &filter_length, &err);
             else {
                 error("S%03d SOFA file is nothing.",strazi);
                 break;
