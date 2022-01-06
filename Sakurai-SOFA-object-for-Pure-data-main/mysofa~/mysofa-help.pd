@@ -1,23 +1,23 @@
 #N canvas 471 25 1082 755 12;
 #X obj 7 7 cnv 15 552 40 empty \$0-pddp.cnv.header mysofa~ 3 12 0 18
 -204280 -1 0;
-#X obj 226 196 vsl 15 100 0 359 0 0 empty empty Azimuth 0 -9 0 10 -262130
--1 -1 0 1;
+#X obj 226 196 vsl 15 100 0 359 0 0 empty empty SpeakerPosition 0 -9
+0 10 -262130 -1 -1 0 1;
 #X floatatom 226 308 5 0 0 1 deg - -;
-#X obj 21 182 openpanel;
-#X obj 21 161 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+#X obj 11 182 openpanel;
+#X obj 11 161 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;
-#X msg 21 205 read -resize \$1 soundfile;
-#X obj 21 230 soundfiler;
+#X msg 11 205 read -resize \$1 soundfile;
+#X obj 11 230 soundfiler;
 #N canvas 0 22 450 278 (subpatch) 0;
 #X array soundfile 256 float 2;
 #X coords 0 1 256 -1 200 70 1 0 0;
 #X restore 339 383 graph;
-#X obj 14 377 tabplay~ soundfile;
-#X obj 14 328 bng 15 250 50 0 empty \$0-EOF empty 17 7 0 10 -262144
+#X obj 14 327 tabplay~ soundfile;
+#X obj 14 278 bng 15 250 50 0 empty \$0-EOF empty 17 7 0 10 -262144
 -1 -1;
 #X obj 147 424 mysofa~;
-#X msg 36 351 stop;
+#X msg 36 301 stop;
 #X obj 193 467 *~;
 #X obj 147 468 *~;
 #X floatatom 212 441 5 0 0 0 - - -;
@@ -53,11 +53,11 @@
 #X text 141 616 - distance (20..160 cm);
 #X text 173 690 - convolved signal for the right channel;
 #X text 90 723 https://onkyo.u-aizu..ac.jp/~julian;
-#X obj 129 401 bng 15 250 50 0 \$0-EOF empty empty 17 7 0 10 -262144
+#X obj 129 351 bng 15 250 50 0 \$0-EOF empty empty 17 7 0 10 -262144
 -1 -1;
 #X obj 249 415 hsl 64 15 0 1 0 0 empty empty level -2 -8 0 10 -262144
--1 -1 6300 1;
-#X text 45 158 1) Select audio file;
+-1 -1 0 1;
+#X text 35 158 1) Select audio file;
 #X msg 322 475 \; pd dsp 1;
 #X obj 255 443 moses 0;
 #X msg 250 475 \; pd dsp 0;
@@ -67,16 +67,16 @@
 (last three inlets). Distance is not yet implemented in the SOFA standard.
 NOTE: Make sure that the SOFA file and Pd have the same sampling rate
 , f 76;
-#X obj 313 196 vsl 15 100 0 359 0 0 empty empty Speakerazi(Sofaazi)
-0 -9 0 10 -203904 -1 -1 0 1;
-#X floatatom 313 308 5 0 0 1 deg - -;
+#X obj 333 196 vsl 15 100 0 359 0 0 empty empty SpeakerAzimuth 0 -9
+0 10 -203904 -1 -1 0 1;
+#X floatatom 333 308 5 0 0 1 deg - -;
 #X obj 84 638 cnv 17 3 17 empty \$0-pddp.cnv.let.1 4 5 9 0 16 -228856
 -162280 0;
 #X text 104 638 float;
 #X text 142 638 - speaker_azimuth (0..180 deg.);
-#X text 4 305 2) play;
+#X text 4 255 2) play;
 #X text 223 158 3) Adjust coordinates;
-#X obj 147 505 dac~ 2 1;
+#X obj 147 520 dac~ 2 1;
 #X obj 22 521 tabwrite~ leftIR;
 #X obj 230 522 tabwrite~ rightIR;
 #N canvas 0 22 450 278 (subpatch) 0;
