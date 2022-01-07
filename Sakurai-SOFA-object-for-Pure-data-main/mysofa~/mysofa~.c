@@ -108,6 +108,7 @@ t_int *mysofa_tilde_perform(t_int *w) {
         //SOFA change
         if(x->sofaazi != x->values[3]){
             x->sofaazi = x->values[3];
+            x->sofaazi = 360 - x->sofaazi;
             int strazi = 0;
             double checkazi;
             for(checkazi = 7.5; checkazi <= 360; checkazi = checkazi+15){
