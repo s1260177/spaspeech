@@ -1,7 +1,7 @@
 #N canvas 471 25 557 755 12;
 #X obj 7 7 cnv 15 552 40 empty \$0-pddp.cnv.header mysofa~ 3 12 0 18
 -204280 -1 0;
-#X obj 226 196 vsl 15 100 0 359 0 0 empty empty ListenerAzimuth 0 -9
+#X obj 226 196 vsl 15 100 0 359 0 0 empty empty SpeakerPosition 0 -9
 0 10 -262130 -1 -1 0 1;
 #X floatatom 226 308 5 0 0 1 deg - -;
 #X obj 21 182 openpanel;
@@ -56,7 +56,7 @@
 #X obj 129 401 bng 15 250 50 0 \$0-EOF empty empty 17 7 0 10 -262144
 -1 -1;
 #X obj 249 415 hsl 64 15 0 1 0 0 empty empty level -2 -8 0 10 -262144
--1 -1 6300 1;
+-1 -1 0 1;
 #X text 45 158 1) Select audio file;
 #X msg 322 475 \; pd dsp 1;
 #X obj 255 443 moses 0;
@@ -67,8 +67,8 @@
 (last three inlets). Distance is not yet implemented in the SOFA standard.
 NOTE: Make sure that the SOFA file and Pd have the same sampling rate
 , f 76;
-#X obj 327 196 vsl 15 100 0 359 0 0 empty empty Speakerazi(Sofaazi)
-0 -9 0 10 -203904 -1 -1 7400 1;
+#X obj 327 196 vsl 15 100 0 359 0 0 empty empty Speakerazimuth 0 -9
+0 10 -203904 -1 -1 8100 1;
 #X floatatom 327 308 5 0 0 1 deg - -;
 #X obj 84 638 cnv 17 3 17 empty \$0-pddp.cnv.let.1 4 5 9 0 16 -228856
 -162280 0;

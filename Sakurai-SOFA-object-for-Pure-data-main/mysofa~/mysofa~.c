@@ -88,7 +88,8 @@ t_int *mysofa_tilde_perform(t_int *w) {
     t_sample  *l_out =    (t_sample *)(w[4]);
     int       n =           (int)(w[5]);
     
-
+    float position;
+    
     if(x->err==0){
 
         int i = 0;
@@ -108,7 +109,8 @@ t_int *mysofa_tilde_perform(t_int *w) {
         //SOFA change
         if(x->sofaazi != x->values[3]){
             x->sofaazi = x->values[3];
-            x->sofaazi = 360 - x->sofaazi;
+            if(x->x < 180) x->sofaazi = (int)(x->sofaazi + 180) % 360;
+            else x->sofaazi = x->sofaazi - (x->x - 180);
             int strazi = 0;
             double checkazi;
             for(checkazi = 7.5; checkazi <= 360; checkazi = checkazi+15){
@@ -145,8 +147,10 @@ t_int *mysofa_tilde_perform(t_int *w) {
             x->x = x->values[0];
             x->y = x->values[1];
             x->z = x->values[2];
+            if(x->x < 180) position = 180 - x->x;
+            else position = 540 - x->x;
             x->sofaazi = x->values[3];
-            mysofa_getfilter_float(x->sofa,x->x,x->y,x->z,x->leftIR,x->rightIR,&x->leftDelay,&x->rightDelay);
+            mysofa_getfilter_float(x->sofa,position,x->y,x->z,x->leftIR,x->rightIR,&x->leftDelay,&x->rightDelay);
             x->delaysize = x->rightDelay + x->leftDelay + x->fftsize;
         }
 
