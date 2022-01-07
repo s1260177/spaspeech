@@ -229,14 +229,8 @@ t_int *mysofa_tilde_perform(t_int *w) {
         //output and storage buffer
         for(i=0;i<x->fftsize;i++){
             if(i<n){
-                if(x->sofaazi <= 180){
                 r_out[i] = x->r_buffer[i];
                 l_out[i] = x->l_buffer[i];
-                }
-                else{
-                l_out[i] = x->r_buffer[i];
-                r_out[i] = x->l_buffer[i];
-                }
             }
             x->r_buffer[i] = x->r_buffer[i + n];
             x->l_buffer[i] = x->l_buffer[i + n];
