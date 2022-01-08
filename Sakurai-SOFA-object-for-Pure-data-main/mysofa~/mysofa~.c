@@ -89,6 +89,7 @@ t_int *mysofa_tilde_perform(t_int *w) {
     int       n =           (int)(w[5]);
     
     float position;
+    float Sazimuth;
     
     if(x->err==0){
 
@@ -103,11 +104,11 @@ t_int *mysofa_tilde_perform(t_int *w) {
         x->values[1] = x->elevation;//x->elevation;
         x->values[2] = x->distance;//x->distance;
         x->values[3] = x->spazi;//x->spazi;
-    
-        mysofa_s2c(x->values);
+        //post("%f,%f,%f,%f",x->values[0],x->values[1],x->values[2],x->values[3]);
+        //mysofa_s2c(x->values);
         
         //SOFA change
-        if(x->sofaazi != x->values[3]){
+        /*if(x->sofaazi != x->values[3]){
             x->sofaazi = x->values[3];
             if(x->x < 180) x->sofaazi = (int)(x->sofaazi + 180) % 360;
             else x->sofaazi = x->sofaazi - (x->x - 180);
@@ -141,15 +142,25 @@ t_int *mysofa_tilde_perform(t_int *w) {
             if(strazi == 360) post("SOFA file is 0");
             else post("SOFA file is %d",strazi);
         }
+         */
         //get leftIR and rightIR
-        if(x->x != x->values[0] || x->y != x->values[1] || x->z != x->values[2]){
+        if(x->x != x->values[0] || x->sofaazi != x->values[3]){
 
             x->x = x->values[0];
-            x->y = x->values[1];
-            x->z = x->values[2];
+            //x->y = x->values[1];
+            //x->z = x->values[2];
+            x->sofaazi = x->values[3];
+            
             if(x->x < 180) position = 180 - x->x;
             else position = 540 - x->x;
-            x->sofaazi = x->values[3];
+            
+            //SOFA
+            if(x->x < 180)Sazimuth = x->x + 180;
+            else Sazimuth = x->x - 180;
+            
+            if(Sazimuth > 180)Sazimuth = (-1) * (Sazimuth - 180);
+            post("x->x is %f,%f,%f, Sazimuth is %f",x->x,x->y,x->z,Sazimuth);
+            //
             mysofa_getfilter_float(x->sofa,position,x->y,x->z,x->leftIR,x->rightIR,&x->leftDelay,&x->rightDelay);
             x->delaysize = x->rightDelay + x->leftDelay + x->fftsize;
         }
