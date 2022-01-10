@@ -24,7 +24,7 @@ typedef struct _mysofa_tilde {
     t_float distance;
     t_float spazi;
     t_float values[4];
-    t_float x,y,z,sofaazi;
+    t_float x,y,z,globalpos,globalazi;
     t_float leftDelay;
     t_float rightDelay;
     t_float fftsize;
@@ -88,8 +88,9 @@ t_int *mysofa_tilde_perform(t_int *w) {
     t_sample  *l_out =    (t_sample *)(w[4]);
     int       n =           (int)(w[5]);
     
-    float position;
-    float Sazimuth;
+    float global_Centerazi,global_Centerazi_by15;
+    float localposi,localazi;
+    //float localmove;
     
     if(x->err==0){
 
@@ -144,24 +145,69 @@ t_int *mysofa_tilde_perform(t_int *w) {
         }
          */
         //get leftIR and rightIR
-        if(x->x != x->values[0] || x->sofaazi != x->values[3]){
+        if(x->globalpos != x->values[0] || x->globalazi != x->values[3]){
 
-            x->x = x->values[0];
+            x->globalpos = x->values[0];
             //x->y = x->values[1];
             //x->z = x->values[2];
-            x->sofaazi = x->values[3];
+            x->globalazi = x->values[3];
             
-            if(x->x < 180) position = 180 - x->x;
-            else position = 540 - x->x;
-            
+            float globalpos_by5 = (x->globalpos)/5;
+            globalpos_by5 = (int)globalpos_by5 * 5;
+            if(x->globalpos > globalpos_by5 + 2.5) globalpos_by5 = globalpos_by5 + 5;
+            if(globalpos_by5 == 180) localposi = 0;
+            else if(globalpos_by5 < 180) localposi = 180 - globalpos_by5;
+            else localposi = 540 - globalpos_by5;
             //SOFA
-            if(x->x < 180)Sazimuth = x->x + 180;
-            else Sazimuth = x->x - 180;
+            if(x->globalpos < 180)global_Centerazi = x->globalpos + 180;
+            else global_Centerazi = x->globalpos - 180;
+            global_Centerazi_by15 = global_Centerazi/15;
+            global_Centerazi_by15 =  (int)global_Centerazi_by15*15;
+            if(global_Centerazi > global_Centerazi_by15 + 7.5) global_Centerazi_by15 = global_Centerazi_by15 + 15;
             
-            if(Sazimuth > 180)Sazimuth = (-1) * (Sazimuth - 180);
-            post("x->x is %f,%f,%f, Sazimuth is %f",x->x,x->y,x->z,Sazimuth);
+            float globalazi_by15 = (x->globalazi)/15;
+            globalazi_by15 = (int)globalazi_by15 * 15;
+            if(x->globalazi > globalazi_by15 + 7.5) globalazi_by15 = globalazi_by15 + 15;
+            
+            localazi = globalazi_by15 - global_Centerazi_by15;
+            float localazi_by15;
+            localazi_by15 = localazi/15;
+            localazi_by15 = (int)localazi_by15*15;
+            if(localazi > localazi_by15 + 7.5) localazi_by15 = localazi_by15 + 15;
+            if(localazi_by15 < 0) localazi_by15 = localazi_by15 + 360;
+            //localazi_by15 = 360 - localazi_by15;
+            if(localazi_by15 == 360) localazi_by15 = 0;
+            //if(Sazimuth > 180)Sazimuth = (-1) * (Sazimuth - 180);
+            post("Global: Sposition is %f->%d, Sazimuth %f->%d,SazimuthToCenter is %f->%d",x->globalpos,(int)globalpos_by5,x->globalazi,(int)globalazi_by15,global_Centerazi,(int)global_Centerazi_by15);
+            post("Local: Listener azimuth is %d, Speaker azimuth is %d",(int)localposi,(int)localazi_by15);
+            
+            int strazi = 0;
+            double checkazi;
+            for(checkazi = 7.5; checkazi <= 360; checkazi = checkazi+15){
+                if(localazi_by15 > 360 || localazi_by15 < 0) error("Sofa file could not be read.");
+                else if(localazi_by15 < checkazi && localazi_by15 >= checkazi - 15){
+                    if(strazi == localazi_by15 + 0 || strazi == localazi_by15 +360) x->sofa = x->S000;
+                    else if(strazi == localazi_by15 + 15 || strazi == localazi_by15 + 345) x->sofa = x->S015;
+                    else if(strazi == localazi_by15 + 30 || strazi == localazi_by15 + 330) x->sofa = x->S030;
+                    else if(strazi == localazi_by15 + 45 || strazi == localazi_by15 + 315) x->sofa = x->S045;
+                    else if(strazi == localazi_by15 + 60 || strazi == localazi_by15 + 300) x->sofa = x->S060;
+                    else if(strazi == localazi_by15 + 75 || strazi == localazi_by15 + 285) x->sofa = x->S075;
+                    else if(strazi == localazi_by15 + 90 || strazi == localazi_by15 + 270) x->sofa = x->S090;
+                    else if(strazi == localazi_by15 + 105 || strazi == localazi_by15 + 255) x->sofa = x->S105;
+                    else if(strazi == localazi_by15 + 120 || strazi == localazi_by15 + 240) x->sofa = x->S120;
+                    else if(strazi == localazi_by15 + 135 || strazi == localazi_by15 + 225) x->sofa = x->S135;
+                    else if(strazi == localazi_by15 + 150 || strazi == localazi_by15 + 210) x->sofa = x->S150;
+                    else if(strazi == localazi_by15 + 165 || strazi == localazi_by15 + 195) x->sofa = x->S165;
+                    else if(strazi == localazi_by15 + 180) x->sofa = x->S180;
+                    else {
+                        post("S%03d sofa file is nothing.",strazi);
+                    }
+                    break;
+                }
+                strazi = strazi + 15;
+            }
             //
-            mysofa_getfilter_float(x->sofa,position,x->y,x->z,x->leftIR,x->rightIR,&x->leftDelay,&x->rightDelay);
+            mysofa_getfilter_float(x->sofa,localposi,x->y,x->z,x->leftIR,x->rightIR,&x->leftDelay,&x->rightDelay);
             x->delaysize = x->rightDelay + x->leftDelay + x->fftsize;
         }
 
