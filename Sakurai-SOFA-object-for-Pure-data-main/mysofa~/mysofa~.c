@@ -113,8 +113,8 @@ t_int *mysofa_tilde_perform(t_int *w) {
         if(x->globalpos != x->values[0] || x->globalazi != x->values[3]){
 
             x->globalpos = x->values[0];
-            //x->y = x->values[1];
-            //x->z = x->values[2];
+            x->y = x->values[1];
+            x->z = x->values[2];
             x->globalazi = x->values[3];
             
             globalpos_by5 = (x->globalpos)/5;
