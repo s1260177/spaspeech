@@ -19,7 +19,7 @@ typedef struct _mysofa_tilde {
     t_float rightIR[MAX_BLOCKSIZE];
     t_float leftIR[MAX_BLOCKSIZE];
     t_float f;
-    t_float liazi;
+    t_float sppos;
     t_float elevation;
     t_float distance;
     t_float spazi;
@@ -94,6 +94,7 @@ t_int *mysofa_tilde_perform(t_int *w) {
     float localazi_by15;
     int strazi;
     double checkazi;
+    float values[2];
     
     if(x->err==0){
 
@@ -103,19 +104,22 @@ t_int *mysofa_tilde_perform(t_int *w) {
         float realD,imagD,realS,imagS;
         float mux = 1.0/x->fftsize;
         x->nbins = x->fftsize/2 + 1;
-
+        
+        values[0] = x->sppos;
+        values[1] = x->spazi;
+        /*
         x->values[0] = x->liazi;//x->liazi;
         x->values[1] = x->elevation;//x->elevation;
         x->values[2] = x->distance;//x->distance;
         x->values[3] = x->spazi;//x->spazi;
-       
+  */
         //get leftIR and rightIR
-        if(x->globalpos != x->values[0] || x->globalazi != x->values[3]){
+        if(x->globalpos != values[0] || x->globalazi != values[1]){
 
-            x->globalpos = x->values[0];
-            x->y = x->values[1];
-            x->z = x->values[2];
-            x->globalazi = x->values[3];
+            x->globalpos = values[0];
+            //x->y = x->values[1];
+            //x->z = x->values[2];
+            x->globalazi = values[1];
             
             globalpos_by5 = (x->globalpos)/5;
             globalpos_by5 = (int)globalpos_by5 * 5;
@@ -171,7 +175,15 @@ t_int *mysofa_tilde_perform(t_int *w) {
             }
             post("SOFA file is S%03d.", strazi);
             //
-            mysofa_getfilter_float(x->sofa,localposi,x->y,x->z,x->leftIR,x->rightIR,&x->leftDelay,&x->rightDelay);
+            x->values[0] = -localposi - 180;//x->liazi;
+            x->values[1] = x->elevation;//x->elevation;
+            x->values[2] = x->distance;//x->distance;
+            mysofa_s2c(x->values);
+            x->x = x->values[0];
+            x->y = x->values[1];
+            x->z = x->values[2];
+            post("%f,%f,%f",x->values[0],x->values[1],x->values[2]);
+            mysofa_getfilter_float(x->sofa,x->x,x->y,x->z,x->leftIR,x->rightIR,&x->leftDelay,&x->rightDelay);
             x->delaysize = x->rightDelay + x->leftDelay + x->fftsize;
         }
 
@@ -254,14 +266,9 @@ t_int *mysofa_tilde_perform(t_int *w) {
         //output and storage buffer
         for(i=0;i<x->fftsize;i++){
             if(i<n){
-                if(strazi > 180){
                 r_out[i] = x->r_buffer[i];
                 l_out[i] = x->l_buffer[i];
-                }
-                else{
-                l_out[i] = x->r_buffer[i];
-                r_out[i] = x->l_buffer[i];
-                }
+
             }
             x->r_buffer[i] = x->r_buffer[i + n];
             x->l_buffer[i] = x->l_buffer[i + n];
@@ -333,7 +340,7 @@ void mysofa_tilde_dsp(t_mysofa_tilde *x, t_signal **sp) {
     x->filter_length = filter_length;
     x->convsize = x->filter_length + sp[0]->s_n - 1;
     x->err = err;
-    x->liazi = 0;
+    x->sppos = 0;
     x->elevation = 0;
     x->distance = 60;
 
@@ -432,7 +439,7 @@ void mysofa_tilde_free(t_mysofa_tilde *x) {
 
 void *mysofa_tilde_new(void) {
     t_mysofa_tilde *x = (t_mysofa_tilde *)pd_new(mysofa_tilde_class);
-    x->x_in2 = floatinlet_new(&x->x_obj, &x->liazi);
+    x->x_in2 = floatinlet_new(&x->x_obj, &x->sppos);
     x->x_in3 = floatinlet_new(&x->x_obj, &x->spazi);
   
 
