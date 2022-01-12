@@ -88,10 +88,10 @@ t_int *mysofa_tilde_perform(t_int *w) {
     t_sample  *l_out =    (t_sample *)(w[4]);
     int       n =           (int)(w[5]);
     
-    float global_Centerazi,global_Centerazi_by15;
-    float localposi,localazi;
-    float globalpos_by5, globalazi_by15;
-    float localazi_by15;
+    float global_Centerazi,global_Centerazi_by15;//Angle at which the speaker faces the listener (global coordinates)
+    float localposi,localazi;//Position and angle of the speaker (local coordinates)
+    float globalpos_by5, globalazi_by15;//Position and angle of the speaker (local coordinates)
+    float localazi_by15;//Listener orientation (local coordinates)
     int strazi;
     double checkazi;
     float values[2];
@@ -173,7 +173,7 @@ t_int *mysofa_tilde_perform(t_int *w) {
                 }
                 strazi = strazi + 15;
             }
-            post("SOFA file is S%03d.", strazi);
+            post("SOFA file is S%03d loaded.", strazi);
             //
             x->values[0] = -localposi - 180;//x->liazi;
             x->values[1] = x->elevation;//x->elevation;
@@ -328,7 +328,7 @@ void mysofa_tilde_dsp(t_mysofa_tilde *x, t_signal **sp) {
                 post("S%03d SOFA file is nothing.",strazi);
                 break;
             }
-        post("SOFA file is %s.",file);
+        post("SOFA file is %s loaded.",file);
 
         }
     //strcat(file, "/Users/sakuraiyuki/Documents/Pd/kenkyu/sakurai-Pure-data-object-master/sakurai/Sakurai-SOFA-object-for-Pure-data-main/mysofa~/mit_kemar_normal_pinna.sofa");
@@ -343,7 +343,7 @@ void mysofa_tilde_dsp(t_mysofa_tilde *x, t_signal **sp) {
     x->sppos = 0;
     x->elevation = 0;
     x->distance = 60;
-
+    x->spazi = 0;
 
     if(x->err != 0){
         error( "The file could not be read.");
