@@ -225,14 +225,9 @@ t_int *mysofa_tilde_perform(t_int *w) {
 
             //ir
             if(i<x->filter_length){
-                if(localori > 180){
                 x->l_ir[i] = x->leftIR[i];
                 x->r_ir[i] = x->rightIR[i];
-                }
-                else{
-                    x->r_ir[i] = x->leftIR[i];
-                    x->l_ir[i] = x->rightIR[i];
-                }
+
             }
             else{
                 x->l_ir[i] = 0.0;
@@ -250,28 +245,16 @@ t_int *mysofa_tilde_perform(t_int *w) {
             //left convolution
             realD = x->S_out[i][0];
             imagD = x->S_out[i][1];
-            if(localori > 180){
             realS = x->L_ir[i][0];
             imagS = x->L_ir[i][1];
-            }
-            else{
-                realS = x->R_ir[i][0];
-                imagS = x->R_ir[i][1];
-            }
             x->L_out[i][0] = (realD * realS - imagD * imagS)*mux;
             x->L_out[i][1] = (realD * imagS + imagD * realS)*mux;
 
             //right convolution
             realD = x->S_out[i][0];
             imagD = x->S_out[i][1];
-            if(localori > 180){
             realS = x->R_ir[i][0];
             imagS = x->R_ir[i][1];
-            }
-            else{
-                realS = x->L_ir[i][0];
-                imagS = x->L_ir[i][1];
-            }
             x->R_out[i][0] = (realD * realS - imagD * imagS)*mux;
             x->R_out[i][1] = (realD * imagS + imagD * realS)*mux;
         }
