@@ -183,6 +183,7 @@ t_int *mysofa_tilde_perform(t_int *w) {
             x->y = x->values[1];
             x->z = x->values[2];
             post("%f,%f,%f",x->values[0],x->values[1],x->values[2]);
+            
             mysofa_getfilter_float(x->sofa,x->x,x->y,x->z,x->leftIR,x->rightIR,&x->leftDelay,&x->rightDelay);
             x->delaysize = x->rightDelay + x->leftDelay + x->fftsize;
         }
