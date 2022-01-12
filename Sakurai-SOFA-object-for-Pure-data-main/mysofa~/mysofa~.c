@@ -151,6 +151,7 @@ t_int *mysofa_tilde_perform(t_int *w) {
             //SOFA get
             if(localori_by15 > 180) selectSOFA = 360 - (int)localori_by15;
             else selectSOFA = (int)localori_by15;
+            selectSOFA = 180 - selectSOFA;
             switch(selectSOFA){
                 case 0:
                     x->sofa = x->S000;
@@ -201,13 +202,13 @@ t_int *mysofa_tilde_perform(t_int *w) {
             x->x = x->values[0];
             x->y = x->values[1];
             x->z = x->values[2];
-            post("%f,%f,%f",x->values[0],x->values[1],x->values[2]);
+            post("%f,%f,%f",x->x,x->y,x->z);
             
             mysofa_getfilter_float(x->sofa,x->x,x->y,x->z,x->leftIR,x->rightIR,&x->leftDelay,&x->rightDelay);
             x->delaysize = x->rightDelay + x->leftDelay + x->fftsize;
         
             //SOFA close
-//mysofa_close_cached(x->sofa);
+            //mysofa_close_cached(x->sofa);
         }
         
         for(i = 0; i<x->fftsize ; i++){
