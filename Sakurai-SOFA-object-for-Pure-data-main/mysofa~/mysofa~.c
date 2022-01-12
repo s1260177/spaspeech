@@ -192,6 +192,9 @@ t_int *mysofa_tilde_perform(t_int *w) {
                 case 180:
                     x->sofa = x->S180;
                     break;
+                default:
+                    error("SOFA file is nothing.");
+                    break;
             }
             post("SOFA file is S%03d loaded.", selectSOFA);
             //
