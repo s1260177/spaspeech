@@ -175,7 +175,7 @@ t_int *mysofa_tilde_perform(t_int *w) {
             }
             post("SOFA file is S%03d loaded.", strazi);
             //
-            x->values[0] = -localposi - 180;//x->liazi;
+            x->values[0] = -localposi + 180;//x->liazi;
             x->values[1] = x->elevation;//x->elevation;
             x->values[2] = x->distance;//x->distance;
             mysofa_s2c(x->values);
@@ -343,7 +343,7 @@ void mysofa_tilde_dsp(t_mysofa_tilde *x, t_signal **sp) {
     x->err = err;
     x->sppos = 0;
     x->elevation = 0;
-    x->distance = 60;
+    x->distance = 100;
     x->spazi = 0;
 
     if(x->err != 0){
