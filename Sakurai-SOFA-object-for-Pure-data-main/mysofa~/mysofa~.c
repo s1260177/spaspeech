@@ -60,6 +60,18 @@ typedef struct _mysofa_tilde {
     struct MYSOFA_EASY *S150;
     struct MYSOFA_EASY *S165;
     struct MYSOFA_EASY *S180;
+    struct MYSOFA_EASY *S195;
+    struct MYSOFA_EASY *S210;
+    struct MYSOFA_EASY *S225;
+    struct MYSOFA_EASY *S240;
+    struct MYSOFA_EASY *S255;
+    struct MYSOFA_EASY *S270;
+    struct MYSOFA_EASY *S285;
+    struct MYSOFA_EASY *S300;
+    struct MYSOFA_EASY *S315;
+    struct MYSOFA_EASY *S330;
+    struct MYSOFA_EASY *S345;
+    struct MYSOFA_EASY *S360;
     char filename[1000];
     float *s_in; //s_in
     float *l_ir, *r_ir; //l_ir, r_ir;
@@ -195,6 +207,42 @@ t_int *mysofa_tilde_perform(t_int *w) {
                     break;
                 case 180:
                     x->sofa = x->S180;
+                    break;
+                case 195:
+                    x->sofa = x->S195;
+                    break;
+                case 210:
+                    x->sofa = x->S210;
+                    break;
+                case 225:
+                    x->sofa = x->S225;
+                    break;
+                case 240:
+                    x->sofa = x->S240;
+                    break;
+                case 255:
+                    x->sofa = x->S255;
+                    break;
+                case 270:
+                    x->sofa = x->S270;
+                    break;
+                case 285:
+                    x->sofa = x->S285;
+                    break;
+                case 300:
+                    x->sofa = x->S300;
+                    break;
+                case 315:
+                    x->sofa = x->S315;
+                    break;
+                case 330:
+                    x->sofa = x->S330;
+                    break;
+                case 345:
+                    x->sofa = x->S345;
+                    break;
+                case 360:
+                    x->sofa = x->S360;
                     break;
                 default:
                     error("SOFA file is nothing.");
@@ -351,6 +399,18 @@ void mysofa_tilde_dsp(t_mysofa_tilde *x, t_signal **sp) {
             else if(strori == 150) x->S150 = mysofa_open_cached(file, x->sr, &filter_length, &err);
             else if(strori == 165) x->S165 = mysofa_open_cached(file, x->sr, &filter_length, &err);
             else if(strori == 180) x->S180 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strori == 195) x->S195 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strori == 210) x->S210 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strori == 225) x->S225 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strori == 240) x->S240 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strori == 255) x->S255 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strori == 270) x->S270 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strori == 285) x->S285 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strori == 300) x->S300 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strori == 315) x->S315 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strori == 330) x->S330 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strori == 345) x->S345 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strori == 360) x->S360 = mysofa_open_cached(file, x->sr, &filter_length, &err);
             else {
                 post("S%03d SOFA file is nothing.",strori);
                 break;
