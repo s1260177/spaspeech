@@ -106,18 +106,16 @@ t_int *mysofa_tilde_perform(t_int *w) {
         
         values[0] = x->spazi;
         values[1] = x->spori;
-        /*
-        x->values[0] = x->liori;//x->liori;
+  
+        x->values[0] = x->spazi;//x->azimuth;
         x->values[1] = x->elevation;//x->elevation;
         x->values[2] = x->distance;//x->distance;
-        x->values[3] = x->spori;//x->spori;
-  */
+
+        mysofa_s2c(x->values);
         //get leftIR and rightIR
         if(x->globalazi != values[0] || x->globalori != values[1]){
 
             x->globalazi = values[0];
-            //x->y = x->values[1];
-            //x->z = x->values[2];
             x->globalori = values[1];
             
             globalazi_by5 = (x->globalazi)/5;
@@ -198,11 +196,14 @@ t_int *mysofa_tilde_perform(t_int *w) {
             }
             post("SOFA file is S%03d loaded.", selectSOFA);
             //
-            x->values[0] = -localazi + 180;//x->liori;
+            /*x->values[0] = -localazi + 180;//x->liori;
             x->values[1] = x->elevation;//x->elevation;
             x->values[2] = x->distance;//x->distance;
             mysofa_s2c(x->values);
+            */
+            if(localori > 180)
             x->x = x->values[0];
+            else x->x = -x->values[0];
             x->y = x->values[1];
             x->z = x->values[2];
             post("%f,%f,%f",x->x,x->y,x->z);
@@ -292,9 +293,14 @@ t_int *mysofa_tilde_perform(t_int *w) {
         //output and storage buffer
         for(i=0;i<x->fftsize;i++){
             if(i<n){
+                if(localori > 180){
                 r_out[i] = x->r_buffer[i];
                 l_out[i] = x->l_buffer[i];
-
+                }
+                else{
+                    l_out[i] = x->r_buffer[i];
+                    r_out[i] = x->l_buffer[i];
+                }
             }
             x->r_buffer[i] = x->r_buffer[i + n];
             x->l_buffer[i] = x->l_buffer[i + n];
@@ -362,7 +368,7 @@ void mysofa_tilde_dsp(t_mysofa_tilde *x, t_signal **sp) {
 
     //x->sofa = mysofa_open(file, x->sr, &filter_length, &err);
     //mysofa_tilde_open(x, x->filenameArg);
-    x->sofa = x->S000;
+    x->sofa = x->S180;
     x->filter_length = filter_length;
     x->convsize = x->filter_length + sp[0]->s_n - 1;
     x->err = err;
