@@ -19,12 +19,12 @@ typedef struct _mysofa_tilde {
     t_float rightIR[MAX_BLOCKSIZE];
     t_float leftIR[MAX_BLOCKSIZE];
     t_float f;
-    t_float liazi;
+    t_float spazi;
     t_float elevation;
     t_float distance;
-    t_float spazi;
+    t_float spori;
     t_float values[4];
-    t_float x,y,z,sofaazi;
+    t_float x,y,z,globalazi,globalori;
     t_float leftDelay;
     t_float rightDelay;
     t_float fftsize;
@@ -60,6 +60,18 @@ typedef struct _mysofa_tilde {
     struct MYSOFA_EASY *S150;
     struct MYSOFA_EASY *S165;
     struct MYSOFA_EASY *S180;
+    struct MYSOFA_EASY *S195;
+    struct MYSOFA_EASY *S210;
+    struct MYSOFA_EASY *S225;
+    struct MYSOFA_EASY *S240;
+    struct MYSOFA_EASY *S255;
+    struct MYSOFA_EASY *S270;
+    struct MYSOFA_EASY *S285;
+    struct MYSOFA_EASY *S300;
+    struct MYSOFA_EASY *S315;
+    struct MYSOFA_EASY *S330;
+    struct MYSOFA_EASY *S345;
+    struct MYSOFA_EASY *S360;
     char filename[1000];
     float *s_in; //s_in
     float *l_ir, *r_ir; //l_ir, r_ir;
@@ -88,7 +100,13 @@ t_int *mysofa_tilde_perform(t_int *w) {
     t_sample  *l_out =    (t_sample *)(w[4]);
     int       n =           (int)(w[5]);
     
-
+    float global_Centerori,global_Centerori_by15;//Angle at which the speaker faces the listener (global coordinates)
+    float localazi,localori;//Position and angle of the speaker (local coordinates)
+    float globalazi_by5, globalori_by15;//Position and angle of the speaker (local coordinates)
+    float localori_by15;//Listener orientation (local coordinates)
+    int selectSOFA;
+    float values[2];
+    
     if(x->err==0){
 
         int i = 0;
@@ -97,14 +115,17 @@ t_int *mysofa_tilde_perform(t_int *w) {
         float realD,imagD,realS,imagS;
         float mux = 1.0/x->fftsize;
         x->nbins = x->fftsize/2 + 1;
-
-        x->values[0] = x->liazi;//x->liazi;
+        
+        values[0] = x->spazi;
+        values[1] = x->spori;
+        
+        x->values[0] = x->spazi;//x->azimuth;
         x->values[1] = x->elevation;//x->elevation;
         x->values[2] = x->distance;//x->distance;
-        x->values[3] = x->spazi;//x->spazi;
-    
+
         mysofa_s2c(x->values);
         
+<<<<<<< HEAD
         //SOFA change
         if(x->sofaazi != x->values[3]){
             x->sofaazi = x->values[3];
@@ -158,15 +179,147 @@ t_int *mysofa_tilde_perform(t_int *w) {
         //get leftIR and rightIR
         if(x->x != x->values[0] || x->y != x->values[1] || x->z != x->values[2]){
 
+=======
+         //get leftIR and rightIR
+        if(x->globalazi != values[0] || x->globalori != values[1]){
+            
+            x->globalazi = values[0];
+            x->globalori = values[1];
+            
+>>>>>>> 0113charengecopy
             x->x = x->values[0];
             x->y = x->values[1];
             x->z = x->values[2];
-            x->sofaazi = x->values[3];
+
+            globalazi_by5 = (x->globalazi)/5;
+            globalazi_by5 = (int)globalazi_by5 * 5;
+            if(x->globalazi > globalazi_by5 + 2.5) globalazi_by5 = globalazi_by5 + 5;
+            if(globalazi_by5 == 180) localazi = 0;
+            else if(globalazi_by5 < 180) localazi = 180 - globalazi_by5;
+            else localazi = 540 - globalazi_by5;
+            //SOFA
+            if(x->globalazi < 180)global_Centerori = x->globalazi + 180;
+            else global_Centerori = x->globalazi - 180;
+            global_Centerori_by15 = global_Centerori/15;
+            global_Centerori_by15 =  (int)global_Centerori_by15*15;
+            if(global_Centerori > global_Centerori_by15 + 7.5) global_Centerori_by15 = global_Centerori_by15 + 15;
+            
+            globalori_by15 = (x->globalori)/15;
+            globalori_by15 = (int)globalori_by15 * 15;
+            if(x->globalori > globalori_by15 + 7.5) globalori_by15 = globalori_by15 + 15;
+            
+            localori = globalori_by15 - global_Centerori_by15;
+            localori_by15 = localori/15;
+            localori_by15 = (int)localori_by15*15;
+            if(localori > localori_by15 + 7.5) localori_by15 = localori_by15 + 15;
+            if(localori_by15 < 0) localori_by15 = localori_by15 + 360;
+            //localori_by15 = 360 - localori_by15;
+            if(localori_by15 == 360) localori_by15 = 0;
+            //if(Sorientation > 180)Sorientation = (-1) * (Sorientation - 180);
+            post("Global: Sazimuth is %f->%d, Sorientation %f->%d,SorientationToCenter is %f->%d",x->globalazi,(int)globalazi_by5,x->globalori,(int)globalori_by15,global_Centerori,(int)global_Centerori_by15);
+            post("Local: Listener orientation is %d, Speaker orientation is %d",(int)localazi,(int)localori_by15);
+            
+            //SOFA get
+           selectSOFA = 360 - (int)localori_by15;
+           
+             //selectSOFA = 180 - selectSOFA;
+            //selectSOFA = (int)localori_by15;
+            switch(selectSOFA){
+                case 0:
+                    x->sofa = x->S000;
+                    break;
+                case 15:
+                    x->sofa = x->S015;
+                    break;
+                case 30:
+                    x->sofa = x->S030;
+                    break;
+                case 45:
+                    x->sofa = x->S045;
+                    break;
+                case 60:
+                    x->sofa = x->S060;
+                    break;
+                case 75:
+                    x->sofa = x->S075;
+                    break;
+                case 90:
+                    x->sofa = x->S090;
+                    break;
+                case 105:
+                    x->sofa = x->S105;
+                    break;
+                case 120:
+                    x->sofa = x->S120;
+                    break;
+                case 135:
+                    x->sofa = x->S135;
+                    break;
+                case 150:
+                    x->sofa = x->S150;
+                    break;
+                case 165:
+                    x->sofa = x->S165;
+                    break;
+                case 180:
+                    x->sofa = x->S180;
+                    break;
+                case 195:
+                    x->sofa = x->S195;
+                    break;
+                case 210:
+                    x->sofa = x->S210;
+                    break;
+                case 225:
+                    x->sofa = x->S225;
+                    break;
+                case 240:
+                    x->sofa = x->S240;
+                    break;
+                case 255:
+                    x->sofa = x->S255;
+                    break;
+                case 270:
+                    x->sofa = x->S270;
+                    break;
+                case 285:
+                    x->sofa = x->S285;
+                    break;
+                case 300:
+                    x->sofa = x->S300;
+                    break;
+                case 315:
+                    x->sofa = x->S315;
+                    break;
+                case 330:
+                    x->sofa = x->S330;
+                    break;
+                case 345:
+                    x->sofa = x->S345;
+                    break;
+                case 360:
+                    x->sofa = x->S360;
+                    break;
+                default:
+                    error("SOFA file is nothing.");
+                    break;
+            }
+            post("SOFA file is S%03d loaded.", selectSOFA);
+            //
+            
+            post("%f,%f,%f",x->x,x->y,x->z);
+            
             mysofa_getfilter_float(x->sofa,x->x,x->y,x->z,x->leftIR,x->rightIR,&x->leftDelay,&x->rightDelay);
-            x->delaysize = x->rightDelay + x->leftDelay + x->fftsize;
+            /*if(localori_by15 < 180)
+            mysofa_getfilter_float(x->sofa,x->x,x->y,x->z,x->rightIR,x->leftIR,&x->rightDelay,&x->leftDelay);//0-180
+            else mysofa_getfilter_float(x->sofa,x->x,x->y,x->z,x->leftIR,x->rightIR,&x->leftDelay,&x->rightDelay);
+            */
+             x->delaysize = x->rightDelay + x->leftDelay + x->fftsize;
+        
+            //SOFA close
+            //mysofa_close_cached(x->sofa);
         }
-
-
+        
         for(i = 0; i<x->fftsize ; i++){
             //signal
             if(i<n){
@@ -279,30 +432,48 @@ void mysofa_tilde_dsp(t_mysofa_tilde *x, t_signal **sp) {
     x->sr = sp[0]->s_sr;
 
     //SOFA open
-    for(int strazi = 0; strazi <= 180; strazi = strazi + 15){
+    for(int strori = 0; strori <= 360; strori = strori + 15){
             char file[2000] ="";
             char str[8] ="";
             
             strcpy(file,x->path);
+<<<<<<< HEAD
             strcat(file,"/newphaseMySOFA/");
             sprintf(str, "S%03d", strazi);
+=======
+            strcat(file,"/0114MySOFA/");
+            sprintf(str, "S%03d", strori);
+>>>>>>> 0113charengecopy
             strcat(file,str);
             strcat(file,"_sofa.sofa");
            
-            if(strazi == 0) x->S000 = mysofa_open_cached(file, x->sr, &filter_length, &err);
-            else if(strazi == 15) x->S015 = mysofa_open_cached(file, x->sr, &filter_length, &err);
-            else if(strazi == 30) x->S030 = mysofa_open_cached(file, x->sr, &filter_length, &err);
-            else if(strazi == 45) x->S045 = mysofa_open_cached(file, x->sr, &filter_length, &err);
-            else if(strazi == 60) x->S060 = mysofa_open_cached(file, x->sr, &filter_length, &err);
-            else if(strazi == 75) x->S075 = mysofa_open_cached(file, x->sr, &filter_length, &err);
-            else if(strazi == 90) x->S090 = mysofa_open_cached(file, x->sr, &filter_length, &err);
-            else if(strazi == 105) x->S105 = mysofa_open_cached(file, x->sr, &filter_length, &err);
-            else if(strazi == 120) x->S120 = mysofa_open_cached(file, x->sr, &filter_length, &err);
-            else if(strazi == 135) x->S135 = mysofa_open_cached(file, x->sr, &filter_length, &err);
-            else if(strazi == 150) x->S150 = mysofa_open_cached(file, x->sr, &filter_length, &err);
-            else if(strazi == 165) x->S165 = mysofa_open_cached(file, x->sr, &filter_length, &err);
-            else if(strazi == 180) x->S180 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            if(strori == 0) x->S000 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strori == 15) x->S015 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strori == 30) x->S030 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strori == 45) x->S045 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strori == 60) x->S060 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strori == 75) x->S075 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strori == 90) x->S090 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strori == 105) x->S105 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strori == 120) x->S120 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strori == 135) x->S135 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strori == 150) x->S150 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strori == 165) x->S165 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strori == 180) x->S180 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strori == 195) x->S195 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strori == 210) x->S210 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strori == 225) x->S225 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strori == 240) x->S240 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strori == 255) x->S255 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strori == 270) x->S270 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strori == 285) x->S285 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strori == 300) x->S300 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strori == 315) x->S315 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strori == 330) x->S330 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strori == 345) x->S345 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strori == 360) x->S360 = mysofa_open_cached(file, x->sr, &filter_length, &err);
             else {
+<<<<<<< HEAD
                 error("S%03d SOFA file is nothing.",strazi);
                 break;
             }
@@ -311,6 +482,12 @@ void mysofa_tilde_dsp(t_mysofa_tilde *x, t_signal **sp) {
             err=0;
         }
             else post("SOFA file is %s loaded.",file);
+=======
+                post("S%03d SOFA file is nothing.",strori);
+                break;
+            }
+        post("SOFA file is %s loaded.",file);
+>>>>>>> 0113charengecopy
 
         }
     //strcat(file, "/Users/sakuraiyuki/Documents/Pd/kenkyu/sakurai-Pure-data-object-master/sakurai/Sakurai-SOFA-object-for-Pure-data-main/mysofa~/mit_kemar_normal_pinna.sofa");
@@ -322,10 +499,22 @@ void mysofa_tilde_dsp(t_mysofa_tilde *x, t_signal **sp) {
     x->filter_length = filter_length;
     x->convsize = x->filter_length + sp[0]->s_n - 1;
     x->err = err;
-    x->liazi = 0;
+    x->spazi = 0;
     x->elevation = 0;
+<<<<<<< HEAD
     x->distance = 60;
 
+=======
+    x->distance = 1.4;
+    x->spori = 0;
+
+    if(x->err != 0){
+        error( "The file could not be read.");
+    }
+
+
+    else{
+>>>>>>> 0113charengecopy
         while(1){
             if(i==8){
                 post("blocksize is too large");
@@ -414,8 +603,8 @@ void mysofa_tilde_free(t_mysofa_tilde *x) {
 
 void *mysofa_tilde_new(void) {
     t_mysofa_tilde *x = (t_mysofa_tilde *)pd_new(mysofa_tilde_class);
-    x->x_in2 = floatinlet_new(&x->x_obj, &x->liazi);
-    x->x_in3 = floatinlet_new(&x->x_obj, &x->spazi);
+    x->x_in2 = floatinlet_new(&x->x_obj, &x->spazi);
+    x->x_in3 = floatinlet_new(&x->x_obj, &x->spori);
   
 
     x->x_r_out = outlet_new(&x->x_obj, &s_signal);
