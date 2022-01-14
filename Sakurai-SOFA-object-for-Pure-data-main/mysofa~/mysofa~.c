@@ -164,7 +164,7 @@ t_int *mysofa_tilde_perform(t_int *w) {
             post("Local: Listener orientation is %d, Speaker orientation is %d",(int)localazi,(int)localori_by15);
             
             //SOFA get
-           selectSOFA = 360 - (int)localori_by15;
+           selectSOFA = (int)localori_by15;
            
              //selectSOFA = 180 - selectSOFA;
             //selectSOFA = (int)localori_by15;
