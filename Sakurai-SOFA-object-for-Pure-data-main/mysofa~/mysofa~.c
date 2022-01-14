@@ -164,10 +164,10 @@ t_int *mysofa_tilde_perform(t_int *w) {
             post("Local: Listener orientation is %d, Speaker orientation is %d",(int)localazi,(int)localori_by15);
             
             //SOFA get
-            if(localori_by15 > 180) selectSOFA = 360 - (int)localori_by15;
-            else selectSOFA = (int)localori_by15;
-            //selectSOFA = 180 - selectSOFA;
-            selectSOFA = (int)localori_by15;
+           selectSOFA = 360 - (int)localori_by15;
+           
+             //selectSOFA = 180 - selectSOFA;
+            //selectSOFA = (int)localori_by15;
             switch(selectSOFA){
                 case 0:
                     x->sofa = x->S000;
@@ -253,11 +253,11 @@ t_int *mysofa_tilde_perform(t_int *w) {
             
             post("%f,%f,%f",x->x,x->y,x->z);
             
-            //mysofa_getfilter_float(x->sofa,x->x,x->y,x->z,x->leftIR,x->rightIR,&x->leftDelay,&x->rightDelay);
-            if(localori_by15 < 180)
+            mysofa_getfilter_float(x->sofa,x->x,x->y,x->z,x->leftIR,x->rightIR,&x->leftDelay,&x->rightDelay);
+            /*if(localori_by15 < 180)
             mysofa_getfilter_float(x->sofa,x->x,x->y,x->z,x->rightIR,x->leftIR,&x->rightDelay,&x->leftDelay);//0-180
             else mysofa_getfilter_float(x->sofa,x->x,x->y,x->z,x->leftIR,x->rightIR,&x->leftDelay,&x->rightDelay);
-            
+            */
              x->delaysize = x->rightDelay + x->leftDelay + x->fftsize;
         
             //SOFA close
@@ -376,12 +376,12 @@ void mysofa_tilde_dsp(t_mysofa_tilde *x, t_signal **sp) {
     x->sr = sp[0]->s_sr;
 
     //SOFA open
-    for(int strori = 0; strori <= 180; strori = strori + 15){
+    for(int strori = 0; strori <= 360; strori = strori + 15){
             char file[2000] ="";
             char str[8] ="";
             
             strcpy(file,x->path);
-            strcat(file,"/MySOFA/");
+            strcat(file,"/0114MySOFA/");
             sprintf(str, "S%03d", strori);
             strcat(file,str);
             strcat(file,"_sofa.sofa");
