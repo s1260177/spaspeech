@@ -118,12 +118,8 @@ t_int *mysofa_tilde_perform(t_int *w) {
         
         values[0] = x->spazi;
         values[1] = x->spori;
-        
-        x->values[0] = x->spazi;//x->azimuth;
-        x->values[1] = x->elevation;//x->elevation;
-        x->values[2] = x->distance;//x->distance;
 
-        mysofa_s2c(x->values);
+        //mysofa_s2c(x->values);
         
          //get leftIR and rightIR
         if(x->globalazi != values[0] || x->globalori != values[1]){
@@ -131,10 +127,6 @@ t_int *mysofa_tilde_perform(t_int *w) {
             x->globalazi = values[0];
             x->globalori = values[1];
             
-            x->x = x->values[0];
-            x->y = x->values[1];
-            x->z = x->values[2];
-
             globalazi_by5 = (x->globalazi)/5;
             globalazi_by5 = (int)globalazi_by5 * 5;
             if(x->globalazi > globalazi_by5 + 2.5) globalazi_by5 = globalazi_by5 + 5;
@@ -164,8 +156,8 @@ t_int *mysofa_tilde_perform(t_int *w) {
             post("Local: Listener orientation is %d, Speaker orientation is %d",(int)localazi,(int)localori_by15);
             
             //SOFA get
-           selectSOFA = (int)localori_by15;
-           
+           //selectSOFA = (int)localori_by15;
+            selectSOFA = x->spazi;
              //selectSOFA = 180 - selectSOFA;
             //selectSOFA = (int)localori_by15;
             switch(selectSOFA){
@@ -250,6 +242,14 @@ t_int *mysofa_tilde_perform(t_int *w) {
             }
             post("SOFA file is S%03d loaded.", selectSOFA);
             //
+            
+            x->values[0] = localazi;
+            x->values[1] = 0;
+            x->values[2] = 1.4;
+            mysofa_s2c(x->values);
+            x->x = x->values[0];
+            x->y = x->values[1];
+            x->z = x->values[2];
             
             post("%f,%f,%f",x->x,x->y,x->z);
             
@@ -381,7 +381,7 @@ void mysofa_tilde_dsp(t_mysofa_tilde *x, t_signal **sp) {
             char str[8] ="";
             
             strcpy(file,x->path);
-            strcat(file,"/0114MySOFA/");
+            strcat(file,"/0114PMMySOFA/");
             sprintf(str, "S%03d", strori);
             strcat(file,str);
             strcat(file,"_sofa.sofa");
