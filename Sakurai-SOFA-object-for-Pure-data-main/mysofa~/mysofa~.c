@@ -157,7 +157,7 @@ t_int *mysofa_tilde_perform(t_int *w) {
             
             //SOFA get
            //selectSOFA = (int)localori_by15;
-            selectSOFA = x->spazi;
+            selectSOFA = globalori_by15;
              //selectSOFA = 180 - selectSOFA;
             //selectSOFA = (int)localori_by15;
             switch(selectSOFA){
@@ -243,7 +243,7 @@ t_int *mysofa_tilde_perform(t_int *w) {
             post("SOFA file is S%03d loaded.", selectSOFA);
             //
             
-            x->values[0] = localazi;
+            x->values[0] = -localazi;
             x->values[1] = 0;
             x->values[2] = 1.4;
             mysofa_s2c(x->values);
@@ -381,7 +381,7 @@ void mysofa_tilde_dsp(t_mysofa_tilde *x, t_signal **sp) {
             char str[8] ="";
             
             strcpy(file,x->path);
-            strcat(file,"/0114PMMySOFA/");
+            strcat(file,"/0115nightMySOFA/");
             sprintf(str, "S%03d", strori);
             strcat(file,str);
             strcat(file,"_sofa.sofa");
