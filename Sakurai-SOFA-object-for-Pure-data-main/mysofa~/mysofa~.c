@@ -156,7 +156,7 @@ t_int *mysofa_tilde_perform(t_int *w) {
             post("Local: Listener orientation is %d, Speaker orientation is %d",(int)localazi,(int)localori_by15);
             
             //SOFA get
-           //selectSOFA = (int)localori_by15;
+           //selectSOFA = 360 - (int)localori_by15;
             selectSOFA = globalori_by15;
              //selectSOFA = 180 - selectSOFA;
             //selectSOFA = (int)localori_by15;
@@ -243,7 +243,7 @@ t_int *mysofa_tilde_perform(t_int *w) {
             post("SOFA file is S%03d loaded.", selectSOFA);
             //
             
-            x->values[0] = -localazi;
+            x->values[0] = -x->spazi;
             x->values[1] = 0;
             x->values[2] = 1.4;
             mysofa_s2c(x->values);
@@ -381,7 +381,7 @@ void mysofa_tilde_dsp(t_mysofa_tilde *x, t_signal **sp) {
             char str[8] ="";
             
             strcpy(file,x->path);
-            strcat(file,"/0115nightMySOFA/");
+            strcat(file,"/0116noonMySOFA/");
             sprintf(str, "S%03d", strori);
             strcat(file,str);
             strcat(file,"_sofa.sofa");

@@ -56,7 +56,7 @@
 #X obj 129 401 bng 15 250 50 0 \$0-EOF empty empty 17 7 0 10 -262144
 -1 -1;
 #X obj 249 415 hsl 64 15 0 1 0 0 empty empty level -2 -8 0 10 -262144
--1 -1 6300 1;
+-1 -1 0 1;
 #X text 45 158 1) Select audio file;
 #X msg 322 475 \; pd dsp 1;
 #X obj 255 443 moses 0;
@@ -78,7 +78,7 @@ NOTE: Make sure that the SOFA file and Pd have the same sampling rate
 #X text 223 158 3) Adjust coordinates;
 #X floatatom 20 462 5 0 0 0 - - -;
 #X obj 57 436 hsl 64 15 0 1 0 0 empty empty level -2 -8 0 10 -262144
--1 -1 6300 1;
+-1 -1 0 1;
 #X obj 147 505 dac~;
 #X connect 1 0 2 0;
 #X connect 2 0 10 1;
