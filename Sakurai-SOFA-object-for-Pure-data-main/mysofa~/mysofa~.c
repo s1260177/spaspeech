@@ -60,7 +60,7 @@ typedef struct _mysofa_tilde {
     struct MYSOFA_EASY *S150;
     struct MYSOFA_EASY *S165;
     struct MYSOFA_EASY *S180;
-    /*struct MYSOFA_EASY *S195;
+    struct MYSOFA_EASY *S195;
     struct MYSOFA_EASY *S210;
     struct MYSOFA_EASY *S225;
     struct MYSOFA_EASY *S240;
@@ -72,7 +72,7 @@ typedef struct _mysofa_tilde {
     struct MYSOFA_EASY *S330;
     struct MYSOFA_EASY *S345;
     struct MYSOFA_EASY *S360;
-     */
+    
     char filename[1000];
     float *s_in; //s_in
     float *l_ir, *r_ir; //l_ir, r_ir;
@@ -154,11 +154,12 @@ t_int *mysofa_tilde_perform(t_int *w) {
             if(localori_by15 == 360) localori_by15 = 0;
             //if(Sorientation > 180)Sorientation = (-1) * (Sorientation - 180);
             post("Global: Sazimuth is %f->%d, Sorientation %f->%d,SorientationToCenter is %f->%d",x->globalazi,(int)globalazi_by5,x->globalori,(int)globalori_by15,global_Centerori,(int)global_Centerori_by15);
-            post("Local: Listener orientation is %d, Speaker orientation is %d",(int)localazi,(int)localori_by15);
+            //post("Local: Listener orientation is %d, Speaker orientation is %d",(int)localazi,(int)localori_by15);
+            post("Local: Speaker orientation is %d",(int)localori_by15);
             
             //SOFA get
-           //selectSOFA = 360 - (int)localori_by15;
-            selectSOFA = globalori_by15;
+           selectSOFA = (int)localori_by15;
+            //selectSOFA = globalori_by15;
              //selectSOFA = 180 - selectSOFA;
             //selectSOFA = (int)localori_by15;
             switch(selectSOFA){
@@ -201,7 +202,7 @@ t_int *mysofa_tilde_perform(t_int *w) {
                 case 180:
                     x->sofa = x->S180;
                     break;
-                /*case 195:
+                case 195:
                     x->sofa = x->S195;
                     break;
                 case 210:
@@ -237,7 +238,7 @@ t_int *mysofa_tilde_perform(t_int *w) {
                 case 360:
                     x->sofa = x->S360;
                     break;
-                 */
+                 
                 default:
                     error("SOFA file is nothing.");
                     break;
@@ -245,7 +246,7 @@ t_int *mysofa_tilde_perform(t_int *w) {
             post("SOFA file is S%03d loaded.", selectSOFA);
             //
             
-            x->values[0] = -x->spazi;
+            x->values[0] = x->spazi;
             x->values[1] = 0;
             x->values[2] = 1.4;
             mysofa_s2c(x->values);
@@ -378,13 +379,14 @@ void mysofa_tilde_dsp(t_mysofa_tilde *x, t_signal **sp) {
     x->sr = sp[0]->s_sr;
 
     //SOFA open
-    for(int strori = 0; strori <= 180; strori = strori + 15){
+    for(int strori = 0; strori <= 360; strori = strori + 15){
             char file[2000] ="";
             char str[8] ="";
             
             strcpy(file,x->path);
-            strcat(file,"/0116PMMySOFA/");
-            sprintf(str, "S%03d", strori);
+            strcat(file,"/rawPMMySOFA/");
+        //strcat(file,"/AizuSPSOFA/");
+        sprintf(str, "S%03d", strori);
             strcat(file,str);
             strcat(file,"_sofa.sofa");
            
@@ -401,7 +403,7 @@ void mysofa_tilde_dsp(t_mysofa_tilde *x, t_signal **sp) {
             else if(strori == 150) x->S150 = mysofa_open_cached(file, x->sr, &filter_length, &err);
             else if(strori == 165) x->S165 = mysofa_open_cached(file, x->sr, &filter_length, &err);
             else if(strori == 180) x->S180 = mysofa_open_cached(file, x->sr, &filter_length, &err);
-            /*else if(strori == 195) x->S195 = mysofa_open_cached(file, x->sr, &filter_length, &err);
+            else if(strori == 195) x->S195 = mysofa_open_cached(file, x->sr, &filter_length, &err);
             else if(strori == 210) x->S210 = mysofa_open_cached(file, x->sr, &filter_length, &err);
             else if(strori == 225) x->S225 = mysofa_open_cached(file, x->sr, &filter_length, &err);
             else if(strori == 240) x->S240 = mysofa_open_cached(file, x->sr, &filter_length, &err);
@@ -413,7 +415,7 @@ void mysofa_tilde_dsp(t_mysofa_tilde *x, t_signal **sp) {
             else if(strori == 330) x->S330 = mysofa_open_cached(file, x->sr, &filter_length, &err);
             else if(strori == 345) x->S345 = mysofa_open_cached(file, x->sr, &filter_length, &err);
             else if(strori == 360) x->S360 = mysofa_open_cached(file, x->sr, &filter_length, &err);
-             */
+             
             else {
                 post("S%03d SOFA file is nothing.",strori);
                 break;

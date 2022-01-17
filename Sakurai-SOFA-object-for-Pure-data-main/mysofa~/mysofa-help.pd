@@ -2,7 +2,7 @@
 #X obj 7 7 cnv 15 552 40 empty \$0-pddp.cnv.header mysofa~ 3 12 0 18
 -204280 -1 0;
 #X obj 226 196 vsl 15 100 0 359 0 0 empty empty SpeakerAzimuth 0 -9
-0 10 -262130 -1 -1 0 1;
+0 10 -262130 -1 -1 2600 1;
 #X floatatom 226 308 5 0 0 1 deg - -;
 #X obj 21 182 openpanel;
 #X obj 21 161 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
@@ -68,7 +68,7 @@
 NOTE: Make sure that the SOFA file and Pd have the same sampling rate
 , f 76;
 #X obj 327 196 vsl 15 100 0 359 0 0 empty empty SpeakerOrientation
-0 -9 0 10 -203904 -1 -1 0 1;
+0 -9 0 10 -203904 -1 -1 5000 1;
 #X floatatom 327 308 5 0 0 1 deg - -;
 #X obj 84 638 cnv 17 3 17 empty \$0-pddp.cnv.let.1 4 5 9 0 16 -228856
 -162280 0;
@@ -76,7 +76,7 @@ NOTE: Make sure that the SOFA file and Pd have the same sampling rate
 #X text 142 638 - speaker_azimuth (0..180 deg.);
 #X text 4 305 2) play;
 #X text 223 158 3) Adjust coordinates;
-#X obj 147 505 dac~;
+#X obj 147 504 dac~ 2 1;
 #X connect 1 0 2 0;
 #X connect 2 0 10 1;
 #X connect 3 0 5 0;
