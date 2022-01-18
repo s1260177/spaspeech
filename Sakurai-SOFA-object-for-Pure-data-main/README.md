@@ -16,39 +16,45 @@ I also made it possible to change multiple SOFA files read by the slider, just a
 
 
 # Installation
+If you have not downloaded the following, please do so. (If you get an error when compiling, please make sure you have all of the following items)
+
 Pure-data
 http://puredata.info/downloads/pure-data
 The site to install Puredata.
 Please install Puredata according to your OS here.
 
+Homebrew
+https://brew.sh/index_ja
+
+$ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+Brew(cunit)
+https://formulae.brew.sh/formula/cunit
+$ brew install cunit
+
+Brew(node.js)
+https://qiita.com/kyosuke5_20/items/c5f68fc9d89b84c0df09
+$ brew install nodebrew
+$ nodebrew setup
+$ nodebrew install-binary latest
+$ nodebrew use ***
+
+Brew(cmake)
+$ brew install cmake
+
 fftw
-http://www.fftw.org/download.html
-Install the latest fftw here
+http://www.fftw.org/download.html 
+$ tar -zxvf fftw-3.3.10.tar.gz
+$ cd fftw-3.3.10
 
-> $ tar -zxvf fftw-3.3.9.tar.gz
-
-> $ cd fftw-3.3.9
-
-> $ make
-
-> $ sudo make install
-
-Installation is complete.
-
-Make sure that libfftw3.a, libfftw3.la, libfftw3f.a, libfftw3f.la, and libmysofa.a are in ~/usr/local/lib/.
-
-If you don't have them, move them to ~/usr/local/lib.
-
+fftw3f
+$ ./configure --enable-float --enable-shared
+$ make
+$ sudo make install
 
 libmysofa
 https://github.com/hoene/libmysofa
 Follow the Compile here.
-
-If you do not have Cunit installed, please install it.
-https://sourceforge.net/projects/cunit/files/
-
-Also, if you do not have Node.js installed, please install it.
-
 
 # Usage
 Execute this command
