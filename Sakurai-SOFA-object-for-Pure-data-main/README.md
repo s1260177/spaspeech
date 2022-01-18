@@ -10,7 +10,7 @@ I also made it possible to change multiple SOFA files read by the slider, just a
 # Requirement
 
 * Pure-data
-* fftw-3.3.9
+* fftw-3.3.10
 * libmysofa
 
 
@@ -60,28 +60,15 @@ How to use pdsofa~help.pd
 > $ cd mysofa~
 
 > $ make
-
-First, press the bung connected to the [openpanel] and select the sofafile you want to include.
-
-Next, select the .wav file you want to put in the sound file array.
+(Don't forget [> $ make clean] if darwin file is in the current directory.)
+First, select the .wav file you want to put in the sound file array.
 
 Turn on the DSP.
 
 Press the bang connected to [tabplay~].
 
-Change the azimuth, elevation, and distance values, and the sound will be output accordingly.
-
-There is a video for reference.
-
-https://youtu.be/DrBP1Iz9Ots 
-(English)
-
-https://youtu.be/eYMlJGgj1rw 
-(Japan)
+Change the speaker azimuth and orientation values, and the sound will be output accordingly.
 
 # Author
-* Author Sakuya Fujisawa
-* E-mail m5251103@u-aizu.ac.jp
-
 * Author Yuki Sakurai
 * E-mail s1260177@u-aizu.ac.jp

@@ -371,7 +371,7 @@ void changesofa_tilde_dsp(t_changesofa_tilde *x, t_signal **sp) {
             sp[2]->s_vec, //out_signal_l
             sp[0]->s_n);
 
-    int filter_length, err;
+    int filter_length, err=0;
     int i=0;
     int size[8] = {128, 256, 512, 1024, 2048, 4096, 8192,16384};
 
@@ -384,8 +384,8 @@ void changesofa_tilde_dsp(t_changesofa_tilde *x, t_signal **sp) {
             char str[8] ="";
             
             strcpy(file,x->path);
-            strcat(file,"/0117PMMySOFA/");
-        //strcat(file,"/rawPMMySOFA/");
+            //strcat(file,"/0117PMMySOFA/");
+        strcat(file,"/rawPMMySOFA/");
         sprintf(str, "S%03d", strori);
             strcat(file,str);
             strcat(file,"_sofa.sofa");
@@ -416,7 +416,7 @@ void changesofa_tilde_dsp(t_changesofa_tilde *x, t_signal **sp) {
             else if(strori == 345) x->S345 = mysofa_open_cached(file, x->sr, &filter_length, &err);
             else if(strori == 360) x->S360 = mysofa_open_cached(file, x->sr, &filter_length, &err);
              
-            else {
+            if(err != 0) {
                 post("S%03d SOFA file is nothing.",strori);
                 break;
             }
@@ -522,7 +522,32 @@ void changesofa_tilde_free(t_changesofa_tilde *x) {
     fftwf_free(x->R_out);
     fftwf_free(x->l_out);
     fftwf_free(x->r_out);
-    mysofa_close(x->sofa);
+    mysofa_close(x->S000);
+    mysofa_close(x->S015);
+    mysofa_close(x->S030);
+    mysofa_close(x->S045);
+    mysofa_close(x->S060);
+    mysofa_close(x->S075);
+    mysofa_close(x->S090);
+    mysofa_close(x->S105);
+    mysofa_close(x->S120);
+    mysofa_close(x->S135);
+    mysofa_close(x->S150);
+    mysofa_close(x->S165);
+    mysofa_close(x->S180);
+    mysofa_close(x->S195);
+    mysofa_close(x->S210);
+    mysofa_close(x->S225);
+    mysofa_close(x->S240);
+    mysofa_close(x->S255);
+    mysofa_close(x->S270);
+    mysofa_close(x->S285);
+    mysofa_close(x->S300);
+    mysofa_close(x->S315);
+    mysofa_close(x->S330);
+    mysofa_close(x->S345);
+    mysofa_close(x->S360);
+    
     mysofa_cache_release_all();
 }
 
