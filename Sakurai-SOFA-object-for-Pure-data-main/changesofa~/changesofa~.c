@@ -8,13 +8,13 @@
 #include <mysofa.h>
 #include <fftw3.h>
 
-static t_class *mysofa_tilde_class;
+static t_class *changesofa_tilde_class;
 
 #define MAX_BLOCKSIZE 16384
 #define MAX_N_POINTS 3000
 
 
-typedef struct _mysofa_tilde {
+typedef struct _changesofa_tilde {
     t_object x_obj;
     t_float rightIR[MAX_BLOCKSIZE];
     t_float leftIR[MAX_BLOCKSIZE];
@@ -85,7 +85,7 @@ typedef struct _mysofa_tilde {
 
     fftwf_plan plan1, plan2, plan3, plan4,plan5;
 
-} t_mysofa_tilde;
+} t_changesofa_tilde;
 
 // MAX_BLOCKSIZE 8192
 //blockScale = MAX_BLOCKSIZE / blocksize;
@@ -94,8 +94,8 @@ typedef struct _mysofa_tilde {
 
 
 
-t_int *mysofa_tilde_perform(t_int *w) {
-    t_mysofa_tilde *x = (t_mysofa_tilde *)(w[1]);
+t_int *changesofa_tilde_perform(t_int *w) {
+    t_changesofa_tilde *x = (t_changesofa_tilde *)(w[1]);
     t_sample  *in =    (t_sample *)(w[2]);
     t_sample  *r_out =    (t_sample *)(w[3]);
     t_sample  *l_out =    (t_sample *)(w[4]);
@@ -362,8 +362,8 @@ t_int *mysofa_tilde_perform(t_int *w) {
 
 
 
-void mysofa_tilde_dsp(t_mysofa_tilde *x, t_signal **sp) {
-    dsp_add(mysofa_tilde_perform,
+void changesofa_tilde_dsp(t_changesofa_tilde *x, t_signal **sp) {
+    dsp_add(changesofa_tilde_perform,
             5,
             x,
             sp[0]->s_vec, //in_signal
@@ -427,7 +427,7 @@ void mysofa_tilde_dsp(t_mysofa_tilde *x, t_signal **sp) {
     //strcat(file,"/Users/sakuraiyuki/Documents/Pd/kenkyu/sakurai-Pure-data-object-master/sakurai/Sakurai-SOFA-object-for-Pure-data-main/newMySOFA/S000_sofa.sofa");
 
     //x->sofa = mysofa_open(file, x->sr, &filter_length, &err);
-    //mysofa_tilde_open(x, x->filenameArg);
+    //changesofa_tilde_open(x, x->filenameArg);
     x->sofa = x->S000;
     x->filter_length = filter_length;
     x->convsize = x->filter_length + sp[0]->s_n - 1;
@@ -493,7 +493,7 @@ void mysofa_tilde_dsp(t_mysofa_tilde *x, t_signal **sp) {
 
 
 
-void mysofa_tilde_symbol(t_mysofa_tilde *x, t_symbol *s){
+void changesofa_tilde_symbol(t_changesofa_tilde *x, t_symbol *s){
     x->filenameArg = s;
 }
 
@@ -501,7 +501,7 @@ void mysofa_tilde_symbol(t_mysofa_tilde *x, t_symbol *s){
 
 
 
-void mysofa_tilde_free(t_mysofa_tilde *x) {
+void changesofa_tilde_free(t_changesofa_tilde *x) {
     inlet_free(x->x_in2);
     inlet_free(x->x_in3);
     outlet_free(x->x_r_out);
@@ -529,8 +529,8 @@ void mysofa_tilde_free(t_mysofa_tilde *x) {
 
 
 
-void *mysofa_tilde_new(void) {
-    t_mysofa_tilde *x = (t_mysofa_tilde *)pd_new(mysofa_tilde_class);
+void *changesofa_tilde_new(void) {
+    t_changesofa_tilde *x = (t_changesofa_tilde *)pd_new(changesofa_tilde_class);
     x->x_in2 = floatinlet_new(&x->x_obj, &x->spazi);
     x->x_in3 = floatinlet_new(&x->x_obj, &x->spori);
   
@@ -547,20 +547,20 @@ void *mysofa_tilde_new(void) {
 
 
 
-void mysofa_tilde_setup(void) {
+void changesofa_tilde_setup(void) {
 
-    mysofa_tilde_class=class_new(gensym("mysofa~"),
-                                 (t_newmethod)mysofa_tilde_new,
-                                 (t_method)mysofa_tilde_free,
-                                 sizeof(t_mysofa_tilde),
+    changesofa_tilde_class=class_new(gensym("changesofa~"),
+                                 (t_newmethod)changesofa_tilde_new,
+                                 (t_method)changesofa_tilde_free,
+                                 sizeof(t_changesofa_tilde),
                                  CLASS_DEFAULT,
                                  0);
 
-    class_addmethod(mysofa_tilde_class,
-                    (t_method)mysofa_tilde_dsp,
+    class_addmethod(changesofa_tilde_class,
+                    (t_method)changesofa_tilde_dsp,
                     gensym("dsp"),A_CANT,0);
 
-    class_addsymbol(mysofa_tilde_class, mysofa_tilde_symbol);
-    CLASS_MAINSIGNALIN(mysofa_tilde_class, t_mysofa_tilde, f);
+    class_addsymbol(changesofa_tilde_class, changesofa_tilde_symbol);
+    CLASS_MAINSIGNALIN(changesofa_tilde_class, t_changesofa_tilde, f);
 
 }
