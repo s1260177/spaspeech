@@ -384,7 +384,7 @@ void mysofa_tilde_dsp(t_mysofa_tilde *x, t_signal **sp) {
             char str[8] ="";
             
             strcpy(file,x->path);
-            strcat(file,"/rawPMMySOFA/");
+            strcat(file,"/0117PMMySOFA/");
         //strcat(file,"/AizuSPSOFA/");
         sprintf(str, "S%03d", strori);
             strcat(file,str);
