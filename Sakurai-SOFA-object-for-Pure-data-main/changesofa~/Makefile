@@ -4,11 +4,11 @@ cflags =  -I/usr/local/include/ -mmacosx-version-min=10.15
 
 ldflags = -L/usr/local/lib/ -lmysofa -lfftw3f -lm
 
-lib.name = mysofa~
+lib.name = changesofa~
 
-class.sources = mysofa~.c
+class.sources = changesofa~.c
 
-datafiles = mysofa~-help.pd README.txt LICENSE.txt
+datafiles = changesofa~-help.pd README.txt LICENSE.txt
 
 include Makefile.pdlibbuilder
 
