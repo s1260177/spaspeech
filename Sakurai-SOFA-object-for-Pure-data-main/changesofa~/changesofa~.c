@@ -424,8 +424,6 @@ void changesofa_tilde_dsp(t_changesofa_tilde *x, t_signal **sp) {
     x->convsize = x->filter_length + sp[0]->s_n - 1;
     x->err = err;
     x->spazi = 0;
-    x->elevation = 0;
-    x->distance = 1.4;
     x->spori = 0;
 
     if(x->err != 0){
