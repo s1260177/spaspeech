@@ -119,8 +119,6 @@ t_int *changesofa_tilde_perform(t_int *w) {
         
         values[0] = x->spazi;
         values[1] = x->spori;
-
-        //mysofa_s2c(x->values);
         
          //get leftIR and rightIR
         if(x->globalazi != values[0] || x->globalori != values[1]){
@@ -150,18 +148,15 @@ t_int *changesofa_tilde_perform(t_int *w) {
             localori_by15 = (int)localori_by15*15;
             if(localori > localori_by15 + 7.5) localori_by15 = localori_by15 + 15;
             if(localori_by15 < 0) localori_by15 = localori_by15 + 360;
-            //localori_by15 = 360 - localori_by15;
             if(localori_by15 == 360) localori_by15 = 0;
-            //if(Sorientation > 180)Sorientation = (-1) * (Sorientation - 180);
+            
             post("Global: Sazimuth is %f->%d, Sorientation %f->%d,SorientationToCenter is %f->%d",x->globalazi,(int)globalazi_by5,x->globalori,(int)globalori_by15,global_Centerori,(int)global_Centerori_by15);
             //post("Local: Listener orientation is %d, Speaker orientation is %d",(int)localazi,(int)localori_by15);
             post("Local: Speaker orientation is %d",(int)localori_by15);
             
             //SOFA get
            selectSOFA = (int)localori_by15;
-            //selectSOFA = globalori_by15;
-             //selectSOFA = 180 - selectSOFA;
-            //selectSOFA = (int)localori_by15;
+            
             switch(selectSOFA){
                 case 0:
                     x->sofa = x->S000;
@@ -257,14 +252,10 @@ t_int *changesofa_tilde_perform(t_int *w) {
             post("%f,%f,%f",x->x,x->y,x->z);
             
             mysofa_getfilter_float(x->sofa,x->x,x->y,x->z,x->leftIR,x->rightIR,&x->leftDelay,&x->rightDelay);
-            /*if(localori_by15 < 180)
-            mysofa_getfilter_float(x->sofa,x->x,x->y,x->z,x->rightIR,x->leftIR,&x->rightDelay,&x->leftDelay);//0-180
-            else mysofa_getfilter_float(x->sofa,x->x,x->y,x->z,x->leftIR,x->rightIR,&x->leftDelay,&x->rightDelay);
-            */
-             x->delaysize = x->rightDelay + x->leftDelay + x->fftsize;
+           
+            x->delaysize = x->rightDelay + x->leftDelay + x->fftsize;
         
             //SOFA close
-            //mysofa_close_cached(x->sofa);
         }
         
         for(i = 0; i<x->fftsize ; i++){
