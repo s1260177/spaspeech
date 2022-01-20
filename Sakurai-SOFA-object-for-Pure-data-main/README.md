@@ -22,9 +22,15 @@ Please install Puredata according to your OS here.
 
 Homebrew
 https://brew.sh/index_ja
+<<<<<<< HEAD
 
 $ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
+=======
+
+$ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+>>>>>>> maybe-compleate
 Brew(cunit)
 https://formulae.brew.sh/formula/cunit
 $ brew install cunit
@@ -63,14 +69,22 @@ How to use pdsofa~help.pd
 > $ cd mysofa~
 
 > $ make
+<<<<<<< HEAD
 
+=======
+(Don't forget [> $ make clean] if darwin file is in the current directory.)
+>>>>>>> maybe-compleate
 First, select the .wav file you want to put in the sound file array.
 
 Turn on the DSP.
 
 Press the bang connected to [tabplay~].
 
+<<<<<<< HEAD
 Change the speaker azimuth and listener azimuth values, and the sound will be output accordingly.
+=======
+Change the speaker azimuth and orientation values, and the sound will be output accordingly.
+>>>>>>> maybe-compleate
 
 # Author
 * Author Yuki Sakurai
