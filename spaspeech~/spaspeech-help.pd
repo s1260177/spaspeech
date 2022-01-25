@@ -1,65 +1,68 @@
 #N canvas 471 25 571 755 12;
 #X obj 7 7 cnv 15 552 40 empty \$0-pddp.cnv.header spaspeech~ 3 12
 0 18 -204280 -1 0;
-#X obj 226 265 vsl 15 100 0 359 0 0 empty empty SpeakerAzimuth 0 -9
+#X obj 226 235 vsl 15 100 0 359 0 0 empty empty SpeakerAzimuth 0 -9
 0 10 -262130 -1 -1 0 1;
-#X floatatom 226 377 5 0 0 1 deg - -;
-#X obj 21 251 openpanel;
-#X obj 21 230 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+#X floatatom 226 347 5 0 0 1 deg - -;
+#X obj 21 221 openpanel;
+#X obj 21 200 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;
-#X msg 21 274 read -resize \$1 soundfile;
-#X obj 21 299 soundfiler;
+#X msg 21 244 read -resize \$1 soundfile;
+#X obj 21 269 soundfiler;
 #N canvas 0 22 450 278 (subpatch) 0;
 #X array soundfile 233873 float 2;
 #X coords 0 1 233873 -1 200 70 1 0 0;
-#X restore 339 452 graph;
-#X obj 23 398 tabplay~ soundfile;
-#X obj 23 349 bng 15 250 50 0 empty \$0-EOF empty 17 7 0 10 -262144
+#X restore 339 422 graph;
+#X obj 23 368 tabplay~ soundfile;
+#X obj 23 319 bng 15 250 50 0 empty \$0-EOF empty 17 7 0 10 -262144
 -1 -1;
-#X msg 45 372 stop;
-#X obj 287 523 *~;
-#X obj 241 524 *~;
-#X floatatom 14 475 5 0 0 0 - - -;
-#X obj 5 583 cnv 3 550 3 empty \$0-pddp.cnv.inlets inlets 8 12 0 13
+#X msg 45 342 stop;
+#X obj 287 493 *~;
+#X obj 241 494 *~;
+#X floatatom 14 445 5 0 0 0 - - -;
+#X obj 5 553 cnv 3 550 3 empty \$0-pddp.cnv.inlets inlets 8 12 0 13
 -228856 -1 0;
-#X obj 5 660 cnv 3 550 3 empty \$0-pddp.cnv.outlets outlets 8 12 0
+#X obj 5 630 cnv 3 550 3 empty \$0-pddp.cnv.outlets outlets 8 12 0
 13 -228856 -1 0;
-#X obj 83 592 cnv 17 3 17 empty \$0-pddp.cnv.let.0 0 5 9 0 16 -228856
+#X obj 83 562 cnv 17 3 17 empty \$0-pddp.cnv.let.0 0 5 9 0 16 -228856
 -162280 0;
-#X obj 83 669 cnv 17 3 17 empty \$0-pddp.cnv.let.0 0 5 9 0 16 -228856
+#X obj 83 639 cnv 17 3 17 empty \$0-pddp.cnv.let.0 0 5 9 0 16 -228856
 -162280 0;
-#X obj 83 614 cnv 17 3 17 empty \$0-pddp.cnv.let.1 1 5 9 0 16 -228856
+#X obj 83 584 cnv 17 3 17 empty \$0-pddp.cnv.let.1 1 5 9 0 16 -228856
 -162280 0;
-#X text 103 613 float;
-#X text 103 668 signal;
-#X obj 84 689 cnv 17 3 17 empty \$0-pddp.cnv.let.0 1 5 9 0 16 -228856
+#X text 103 583 float;
+#X text 103 638 signal;
+#X obj 84 659 cnv 17 3 17 empty \$0-pddp.cnv.let.0 1 5 9 0 16 -228856
 -162280 0;
-#X text 104 688 signal;
-#X text 103 591 symbol and signal;
-#X text 172 668 - convolved signal for the left channel;
-#X text 173 687 - convolved signal for the right channel;
-#X obj 138 422 bng 15 250 50 0 \$0-EOF empty empty 17 7 0 10 -262144
+#X text 104 658 signal;
+#X text 103 561 symbol and signal;
+#X text 172 638 - convolved signal for the left channel;
+#X text 173 657 - convolved signal for the right channel;
+#X obj 138 392 bng 15 250 50 0 \$0-EOF empty empty 17 7 0 10 -262144
 -1 -1;
-#X obj 51 449 hsl 64 15 0 1 0 0 empty empty level -2 -8 0 10 -262144
--1 -1 6300 1;
-#X text 45 218 1) Select audio file;
-#X msg 124 531 \; pd dsp 1;
-#X obj 57 477 moses 0;
-#X msg 52 531 \; pd dsp 0;
-#X obj 327 265 vsl 15 100 0 359 0 0 empty empty SpeakerOrientation
-0 -9 0 10 -203904 -1 -1 5000 1;
-#X floatatom 327 377 5 0 0 1 deg - -;
-#X obj 84 635 cnv 17 3 17 empty \$0-pddp.cnv.let.1 2 5 9 0 16 -228856
+#X obj 51 419 hsl 64 15 0 1 0 0 empty empty level -2 -8 0 10 -262144
+-1 -1 0 1;
+#X text 45 188 1) Select audio file;
+#X msg 124 501 \; pd dsp 1;
+#X obj 57 447 moses 0;
+#X msg 52 501 \; pd dsp 0;
+#X obj 327 235 vsl 15 100 0 359 0 0 empty empty SpeakerOrientation
+0 -9 0 10 -203904 -1 -1 0 1;
+#X floatatom 327 347 5 0 0 1 deg - -;
+#X obj 84 605 cnv 17 3 17 empty \$0-pddp.cnv.let.1 2 5 9 0 16 -228856
 -162280 0;
-#X text 104 635 float;
-#X text 13 326 2) play;
-#X text 223 218 3) Adjust coordinates;
-#X obj 241 560 dac~ 2 1;
+#X text 104 605 float;
+#X text 13 296 2) play;
+#X text 223 188 3) Adjust coordinates;
+#X obj 241 530 dac~ 2 1;
 #X text 19 30 Frequency-based convolution filter for SOFA HRIRs;
-#X text 225 592 - signal;
-#X text 141 613 - azimuth (0..359 deg.);
-#X text 142 635 - speaker_azimuth (0..360 deg.);
-#X text 17 52 [changesofa~] outputs the convolution of a monaural signal
+#X text 225 562 - signal;
+#X text 141 583 - azimuth (0..359 deg.);
+#X text 142 605 - speaker_azimuth (0..360 deg.);
+#X text 80 681 *[dac~ 2 1] is that the output is reversed on the use
+of SOFA.;
+#X obj 241 458 spaspeech~;
+#X text 5 50 [spaspeech~] outputs the convolution of a monaural signal
 (first inlet) with the HRIR measurements from a SOFA file (first inlet
 \, too) \, depending on the azimuth of the loudspeakers (second inlets).
 NOTE: Make sure that the SOFA file and Pd have the same sampling rate
@@ -68,16 +71,12 @@ and the speaker is located around it. The orientation of the speaker
 is 0º in front and 90º to the left. For more information \, please
 refer to the image on the following website https://www.sofaconventions.org/mediawiki/index.php/File:SimpleFreeFieldHRIR-0.3.png
 , f 76;
-#X text 440 146 comment;
-#X text 80 711 *[dac~ 2 1] is that the output is reversed on the use
-of SOFA.;
-#X obj 241 488 spaspeech~;
 #X connect 1 0 2 0;
-#X connect 2 0 46 1;
+#X connect 2 0 44 1;
 #X connect 3 0 5 0;
 #X connect 4 0 3 0;
 #X connect 5 0 6 0;
-#X connect 8 0 46 0;
+#X connect 8 0 44 0;
 #X connect 8 1 26 0;
 #X connect 9 0 8 0;
 #X connect 10 0 8 0;
@@ -90,6 +89,6 @@ of SOFA.;
 #X connect 30 0 31 0;
 #X connect 30 1 29 0;
 #X connect 32 0 33 0;
-#X connect 33 0 46 2;
-#X connect 46 0 12 0;
-#X connect 46 1 11 0;
+#X connect 33 0 44 2;
+#X connect 44 0 12 0;
+#X connect 44 1 11 0;
