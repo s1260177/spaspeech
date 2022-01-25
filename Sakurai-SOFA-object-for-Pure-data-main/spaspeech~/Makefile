@@ -4,11 +4,11 @@ cflags =  -I/usr/local/include/ -mmacosx-version-min=10.15
 
 ldflags = -L/usr/local/lib/ -lmysofa -lfftw3f -lm
 
-lib.name = changesofa~
+lib.name = spaspeech~
 
-class.sources = changesofa~.c
+class.sources = spaspeech~.c
 
-datafiles = changesofa~-help.pd README.txt LICENSE.txt
+datafiles = spaspeech~-help.pd README.txt LICENSE.txt
 
 include Makefile.pdlibbuilder
 
