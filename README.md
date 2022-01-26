@@ -1,4 +1,4 @@
-# spaspeech
+# "spaspeech"
 "spaspeech" is a graphical programming language called Pure-data that uses a Spatial Oriented Format (SOFA) file to convolve a user-specified .wav file with IR (impulse response) based on azimuth and orientation information.
 It is an object that performs IR (impulse response) convolution according to the user-specified .wav file and azimuth and orientation information, and outputs the result.
 With this object, you can manipulate stereophonic sound in real time within Pure-data.
