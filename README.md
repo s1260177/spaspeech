@@ -1,5 +1,5 @@
-# SOFA-object-for-Pure-data
-SOFA-object-for-Pure-data is a graphical programming language called Pure-data that uses a Spatial Oriented Format (SOFA) file to convolve a user-specified .wav file with IR (impulse response) based on azimuth and orientation information.
+# "spaspeech"
+"spaspeech" is a graphical programming language called Pure-data that uses a Spatial Oriented Format (SOFA) file to convolve a user-specified .wav file with IR (impulse response) based on azimuth and orientation information.
 It is an object that performs IR (impulse response) convolution according to the user-specified .wav file and azimuth and orientation information, and outputs the result.
 With this object, you can manipulate stereophonic sound in real time within Pure-data.
 
@@ -18,6 +18,11 @@ Pure-data
 http://puredata.info/downloads/pure-data
 The site to install Puredata.
 Please install Puredata according to your OS here.
+And, install "Gem" by Pure-data.
+#Gem
+Go to "Help" -> "External Search" -> Search for "Gem" -> Install
+Next, you need to configure the startup of "Gem".
+
 
 Homebrew
 https://brew.sh/index_ja
@@ -70,6 +75,8 @@ Turn on the DSP.
 Press the bang connected to [tabplay~].
 
 Change the speaker azimuth and orientation values, and the sound will be output accordingly.
+
+If you have trouble visualizing the image, try pressing [create, 1]. It will help you with your image.
 
 # Author
 * Author Yuki Sakurai
