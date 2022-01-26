@@ -76,6 +76,8 @@ Press the bang connected to [tabplay~].
 
 Change the speaker azimuth and orientation values, and the sound will be output accordingly.
 
+If you have trouble visualizing the image, try pressing [create, 1]. It will help you with your image.
+
 # Author
 * Author Yuki Sakurai
 * E-mail s1260177@u-aizu.ac.jp
