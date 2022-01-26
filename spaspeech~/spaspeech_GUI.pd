@@ -27,7 +27,7 @@
 #X obj 40 45 inlet;
 #X floatatom 328 72 5 0 0 0 - - -;
 #X floatatom 404 72 5 0 0 0 - - -;
-#X obj 240 266 translateXYZ;
+#X obj 240 266 translateXYZ 0 3 0;
 #X connect 0 0 1 0;
 #X connect 2 0 1 0;
 #X connect 3 0 1 0;
