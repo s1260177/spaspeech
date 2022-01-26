@@ -1,8 +1,8 @@
-#N canvas 1002 49 565 755 12;
+#N canvas 1018 117 565 755 12;
 #X obj 7 7 cnv 15 552 40 empty \$0-pddp.cnv.header spaspeech~ 3 12
 0 18 -204280 -1 0;
 #X obj 216 222 vsl 15 100 0 359 0 0 empty empty SpeakerAzimuth 0 -9
-0 10 -262130 -1 -1 7500 1;
+0 10 -262130 -1 -1 0 1;
 #X floatatom 216 334 5 0 0 1 deg - -;
 #X obj 21 221 openpanel;
 #X obj 21 200 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
@@ -41,13 +41,13 @@
 #X obj 138 392 bng 15 250 50 0 \$0-EOF empty empty 17 7 0 10 -262144
 -1 -1;
 #X obj 51 439 hsl 64 15 0 1 0 0 empty empty level -2 -8 0 10 -262144
--1 -1 6300 1;
+-1 -1 0 1;
 #X text 45 188 1) Select audio file;
 #X msg 124 521 \; pd dsp 1;
 #X obj 57 467 moses 0;
 #X msg 52 521 \; pd dsp 0;
 #X obj 317 222 vsl 15 100 0 359 0 0 empty empty SpeakerOrientation
-0 -9 0 10 -203904 -1 -1 7500 1;
+0 -9 0 10 -203904 -1 -1 9900 1;
 #X floatatom 317 334 5 0 0 1 deg - -;
 #X obj 84 625 cnv 17 3 17 empty \$0-pddp.cnv.let.1 2 5 9 0 16 -228856
 -162280 0;
