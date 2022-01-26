@@ -1,8 +1,8 @@
-#N canvas 471 25 571 755 12;
+#N canvas 1002 49 565 755 12;
 #X obj 7 7 cnv 15 552 40 empty \$0-pddp.cnv.header spaspeech~ 3 12
 0 18 -204280 -1 0;
 #X obj 226 235 vsl 15 100 0 359 0 0 empty empty SpeakerAzimuth 0 -9
-0 10 -262130 -1 -1 0 1;
+0 10 -262130 -1 -1 2500 1;
 #X floatatom 226 347 5 0 0 1 deg - -;
 #X obj 21 221 openpanel;
 #X obj 21 200 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
@@ -47,7 +47,7 @@
 #X obj 57 447 moses 0;
 #X msg 52 501 \; pd dsp 0;
 #X obj 327 235 vsl 15 100 0 359 0 0 empty empty SpeakerOrientation
-0 -9 0 10 -203904 -1 -1 0 1;
+0 -9 0 10 -203904 -1 -1 9900 1;
 #X floatatom 327 347 5 0 0 1 deg - -;
 #X obj 84 605 cnv 17 3 17 empty \$0-pddp.cnv.let.1 2 5 9 0 16 -228856
 -162280 0;
@@ -71,8 +71,13 @@ and the speaker is located around it. The orientation of the speaker
 is 0º in front and 90º to the left. For more information \, please
 refer to the image on the following website https://www.sofaconventions.org/mediawiki/index.php/File:SimpleFreeFieldHRIR-0.3.png
 , f 76;
+#X obj 346 383 spaspeech_GUI;
+#X msg 480 295 create \, 1;
+#X msg 481 321 0 \, destroy;
+#X text 359 275 5) GUI (If you want to image);
 #X connect 1 0 2 0;
 #X connect 2 0 44 1;
+#X connect 2 0 46 1;
 #X connect 3 0 5 0;
 #X connect 4 0 3 0;
 #X connect 5 0 6 0;
@@ -90,5 +95,8 @@ refer to the image on the following website https://www.sofaconventions.org/medi
 #X connect 30 1 29 0;
 #X connect 32 0 33 0;
 #X connect 33 0 44 2;
+#X connect 33 0 46 2;
 #X connect 44 0 12 0;
 #X connect 44 1 11 0;
+#X connect 47 0 46 0;
+#X connect 48 0 46 0;
