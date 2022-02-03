@@ -1,4 +1,4 @@
-#N canvas 521 50 471 484 12;
+#N canvas 1145 25 471 484 12;
 #X msg 21 152 create;
 #X obj 21 284 gemwin;
 #X msg 37 179 destroy;
@@ -28,6 +28,7 @@
 #X floatatom 328 72 5 0 0 0 - - -;
 #X floatatom 404 72 5 0 0 0 - - -;
 #X obj 240 266 translateXYZ 0 3 0;
+#X obj 162 60 block~ 131072;
 #X connect 0 0 1 0;
 #X connect 2 0 1 0;
 #X connect 3 0 1 0;
