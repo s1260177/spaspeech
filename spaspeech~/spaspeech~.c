@@ -150,9 +150,9 @@ t_int *spaspeech_tilde_perform(t_int *w) {
             if(localori_by15 < 0) localori_by15 = localori_by15 + 360;
             if(localori_by15 == 360) localori_by15 = 0;
             
-            post("Global: Sazimuth is %f->%d, Sorientation %f->%d,SorientationToCenter is %f->%d",x->globalazi,(int)globalazi_by5,x->globalori,(int)globalori_by15,global_Centerori,(int)global_Centerori_by15);
+            //post("Global: Sazimuth is %f->%d, Sorientation %f->%d,SorientationToCenter is %f->%d",x->globalazi,(int)globalazi_by5,x->globalori,(int)globalori_by15,global_Centerori,(int)global_Centerori_by15);
             //post("Local: Listener orientation is %d, Speaker orientation is %d",(int)localazi,(int)localori_by15);
-            post("Local: Speaker orientation is %d",(int)localori_by15);
+            //post("Local: Speaker orientation is %d",(int)localori_by15);
             
             //SOFA get
            selectSOFA = (int)localori_by15;
@@ -238,7 +238,7 @@ t_int *spaspeech_tilde_perform(t_int *w) {
                     error("SOFA file is nothing.");
                     break;
             }
-            post("SOFA file is S%03d loaded.", selectSOFA);
+            //post("SOFA file is S%03d loaded.", selectSOFA);
             //
             
             x->values[0] = x->spazi;
@@ -249,7 +249,7 @@ t_int *spaspeech_tilde_perform(t_int *w) {
             x->y = x->values[1];
             x->z = x->values[2];
             
-            post("%f,%f,%f",x->x,x->y,x->z);
+            //post("%f,%f,%f",x->x,x->y,x->z);
             
             mysofa_getfilter_float(x->sofa,x->x,x->y,x->z,x->leftIR,x->rightIR,&x->leftDelay,&x->rightDelay);
            
