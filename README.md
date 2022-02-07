@@ -78,6 +78,11 @@ Change the speaker azimuth and orientation values, and the sound will be output 
 
 If you have trouble visualizing the image, try pressing [create, 1]. It will help you with your image.
 
+This is the URL where you can see the demonstration video. 
+Japanese and English versions are available. 
+Please choose the one you prefer from the playlist.
+https://youtube.com/playlist?list=PLaoi2QN52CWu_SfS_ATrwPPSxBqPSZi9v
+
 # Author
 * Author Yuki Sakurai
 * E-mail s1260177@u-aizu.ac.jp
