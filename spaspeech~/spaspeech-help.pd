@@ -47,7 +47,7 @@
 #X obj 57 467 moses 0;
 #X msg 52 521 \; pd dsp 0;
 #X obj 317 222 vsl 15 100 0 359 0 0 empty empty SpeakerOrientation
-0 -9 0 10 -203904 -1 -1 9900 1;
+0 -9 0 10 -203904 -1 -1 0 1;
 #X floatatom 317 334 5 0 0 1 deg - -;
 #X obj 84 625 cnv 17 3 17 empty \$0-pddp.cnv.let.1 2 5 9 0 16 -228856
 -162280 0;
@@ -76,7 +76,7 @@ refer to the image on the following website https://www.sofaconventions.org/medi
 #X msg 481 361 destroy;
 #X msg 483 420 0;
 #X msg 484 390 1;
-#X text 355 256 5) GUI (If you want to image) You put create \, Gem
+#X text 355 256 4) GUI (If you want to image) You put create \, Gem
 display. "1" is display on. "0" is display off. Please "0" \, if you
 don't move.;
 #X connect 1 0 2 0;
